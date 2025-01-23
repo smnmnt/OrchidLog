@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('fertilizers', function (Blueprint $table) {
             $table->bigIncrements('FertilizerID');
             $table->string('FertilizerName');
+            $table->longText('FertilizerDesc');
             $table->timestamps();
         });
     }

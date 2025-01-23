@@ -3,16 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flowers;
+use App\Models\Fertilizers;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class FlowersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function main(): View|Factory|Application
+    {
+        $fertilizers = DB::table('fertilizers')
+            ->get();
+        return view('main', compact('fertilizers'));
+    }
+
+    /**
+     * Display main page.
+     */
     public function index()
     {
-        //
+        $flowers = DB::table('flowers')
+            ->get();
+        $fertilizers = DB::table('fertilizers')
+            ->get();
+        return view('lists.index', compact('fertilizers'));
     }
 
     /**
