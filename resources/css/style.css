@@ -1,0 +1,86 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url(../fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+}
+@font-face {
+    font-family: "Montserrat_Italic";
+    src: url(../fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf);
+}
+@font-face {
+    font-family: "Montserrat_Alternates";
+    src: url(../fonts/Montserrat_Alternates/MontserratAlternates-Regular.ttf);
+}
+@font-face {
+    font-family: "Montserrat_Alternates_Italic";
+    src: url(../fonts/Montserrat_Alternates/MontserratAlternates-Italic.ttf);
+}
+@font-face {
+    font-family: "Roboto";
+    src: url(../fonts/Roboto/Roboto-VariableFont_wdth\,wght.ttf);
+}
+@font-face {
+    font-family: "Roboto_Italic";
+    src: url(../fonts/Roboto/Roboto-Italic-VariableFont_wdth\,wght.ttf);
+}
+:root {
+    --base_color: #103453;
+    --base_color2: #46B09D;
+}
+* {
+    font-family: "Roboto", sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    background: none;
+}
+a {
+    text-decoration: none;
+}
+.container {
+    max-width: 80%;
+    margin: auto;
+}
+
+/* header */
+
+.header {
+    background: var(--base_color);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.header_home_link, .header_home_link span {
+    color: white;
+    font-size: 24px;
+    font-family: "Montserrat_Alternates_Italic", serif;
+}
+.header_home_link span{
+    color: var(--base_color2);
+}
+.fixed-menu  {
+    background: white;
+    background: linear-gradient(180deg, white 50%, var(--base_color) 50%, var(--base_color) 100%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 0;
+    margin-top: -15px;
+}
+.fixed-menu_container  {
+    display: flex;
+    justify-content: space-between;
+}
+.fixed-menu_link {
+    background-color: var(--base_color2);
+    filter: drop-shadow(0px 4px 4px #000000);
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
