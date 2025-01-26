@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Types_of_planting;
+use App\Models\Types_of_Planting;
 use Illuminate\Http\Request;
 
 class TypesOfPlantingController extends Controller

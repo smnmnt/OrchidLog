@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('types_of_planting', function (Blueprint $table) {
-            $table->bigIncrements('TypeOfPlantingID');
-            $table->string('TypeOfPlantingName');
+            $table->bigIncrements('ID');
+            $table->string('Name');
             $table->timestamps();
         });
     }

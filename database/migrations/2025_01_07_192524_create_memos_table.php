@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        Content mb link or txt
         Schema::create('memos', function (Blueprint $table) {
-            $table->bigIncrements('MemoID');
-            $table->string('MemoTitle');
-            $table->string('MemoContent');
+            $table->bigIncrements('ID');
+            $table->string('Name');
+            $table->string('Content');
             $table->timestamps();
         });
     }

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        link to the shop (vk, or in web mb)
         Schema::create('shops', function (Blueprint $table) {
-            $table->bigIncrements('ShopID');
-            $table->string('ShopName');
-            $table->string('ShopLink');
+            $table->bigIncrements('ID');
+            $table->string('Name');
+            $table->string('Link');
             $table->timestamps();
         });
     }

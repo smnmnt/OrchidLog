@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Flower_STLinks extends Model
+class Flower_Images extends Model
 {
-    protected $primaryKey = 'STLinkID';
+    protected $primaryKey = 'ID';
 }

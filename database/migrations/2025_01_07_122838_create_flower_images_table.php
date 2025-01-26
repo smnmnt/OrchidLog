@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fertilizers', function (Blueprint $table) {
-            $table->bigIncrements('FertilizerID');
-            $table->string('FertilizerName');
-            $table->longText('FertilizerDesc');
+//        Link - src of the pic
+        Schema::create('flower_images', function (Blueprint $table) {
+            $table->bigIncrements('ID');
+            $table->bigInteger('FlowerID')->unsigned();
+            $table->string('Link');
             $table->timestamps();
+
+            $table->foreign('FlowerID')->references('ID')->on('flowers');
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fertilizers');
+        Schema::dropIfExists('flower_images');
     }
 };

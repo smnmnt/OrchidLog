@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('flower_blooms', function (Blueprint $table) {
-            $table->bigIncrements('FlowerBloomID');
+        Schema::create('flower_placement_links', function (Blueprint $table) {
+            $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
-            $table->date('BloomDate_Beginning');
-            $table->date('BloomDate_Ending')->nullable();
+            $table->bigInteger('PlacementID')->unsigned();
             $table->timestamps();
-            $table->foreign('FlowerID')->references('FlowerID')->on('flowers');
+            $table->foreign('FlowerID')->references('ID')->on('flowers');
+            $table->foreign('PlacementID')->references('ID')->on('placements');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('flower_blooms');
+        Schema::dropIfExists('flower_placement_links');
     }
 };

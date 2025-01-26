@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('watering_requirements', function (Blueprint $table) {
-            $table->bigIncrements('WateringRequirementID');
-            $table->string('WateringRequirementName');
+            $table->bigIncrements('ID');
+            $table->string('Name');
             $table->timestamps();
         });
     }

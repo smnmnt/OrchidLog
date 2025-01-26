@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('flower_disease_links', function (Blueprint $table) {
-            $table->bigIncrements('FDLinkID');
+            $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
             $table->bigInteger('DiseaseID')->unsigned();
             $table->timestamps();
 
-            $table->foreign('FlowerID')->references('FlowerID')->on('flowers');
-            $table->foreign('DiseaseID')->references('DiseaseID')->on('diseases');
+            $table->foreign('FlowerID')->references('ID')->on('flowers');
+            $table->foreign('DiseaseID')->references('ID')->on('diseases');
         });
     }
 

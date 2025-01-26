@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        TOPID - type of planting (id)
+//        DOT   - date of transplanting
+//        SOP   - size of the pot
         Schema::create('flower_transplantings', function (Blueprint $table) {
-            $table->bigIncrements('TransplantingID');
+            $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
-            $table->bigInteger('TypeOfPlantingID')->unsigned();
-            $table->date('DateOfTransplanting');
-            $table->string('SizeOfPot');
+            $table->bigInteger('TOPID')->unsigned();
+            $table->date('DOT');
+            $table->string('SOP');
             $table->timestamps();
 
-            $table->foreign('FlowerID')->references('FlowerID')->on('flowers');
-            $table->foreign('TypeOfPlantingID')->references('TypeOfPlantingID')->on('types_of_planting');
+            $table->foreign('FlowerID')->references('ID')->on('flowers');
+            $table->foreign('TOPID')->references('ID')->on('types_of_planting');
         });
     }
 

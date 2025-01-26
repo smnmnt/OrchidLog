@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diseases;
+use App\Models\Flower_DiseaseLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,8 +14,7 @@ class DiseasesController extends Controller
      */
     public function index()
     {
-        $diseases = DB::table('diseases')
-            ->get();
+        $diseases = Diseases::all();
         return view('diseases.index', compact('diseases'));
     }
 
@@ -33,11 +33,13 @@ class DiseasesController extends Controller
     {
         $disease = new Diseases();
 
-        $disease->DiseaseName = $request->input('DiseaseName');
-        $disease->DiseaseNotes = $request->input('DiseaseNotes');
-        $disease->DiseaseMethodOfTreatment = $request->input('DiseaseMethodOfTreatment');
+        $disease->Name = $request->input('Name');
+        $disease->Desc = $request->input('Desc');
+        $disease->MOT = $request->input('MOT');
         $disease->save();
-        return redirect()->route('diseases.index')->with('success', 'Недуг успешно добавлен.');
+        return redirect()
+            ->route('diseases.index')
+            ->with('success', 'Недуг добавлен.');
     }
 
     /**
@@ -45,7 +47,7 @@ class DiseasesController extends Controller
      */
     public function show($id)
     {
-        $disease = Diseases::where('DiseaseID','=',$id)
+        $disease = Diseases::where('ID','=',$id)
             ->get();
         return view('diseases.show', compact('disease'));
     }
@@ -55,7 +57,7 @@ class DiseasesController extends Controller
      */
     public function edit($id)
     {
-        $disease = Diseases::where('DiseaseID','=',$id)
+        $disease = Diseases::where('ID','=',$id)
             ->get();
         return view('diseases.edit', compact('disease'));
     }
@@ -67,11 +69,13 @@ class DiseasesController extends Controller
     {
         $disease = Diseases::find($id);
 
-        $disease->DiseaseName = $request->input('DiseaseName');
-        $disease->DiseaseNotes = $request->input('DiseaseNotes');
-        $disease->DiseaseMethodOfTreatment = $request->input('DiseaseMethodOfTreatment');
+        $disease->Name = $request->input('Name');
+        $disease->Desc = $request->input('Desc');
+        $disease->MOT = $request->input('MOT');
         $disease->update();
-        return redirect()->route('diseases.index')->with('success', 'Недуг успешно изменен.');
+        return redirect()
+            ->route('diseases.index')
+            ->with('success', 'Недуг изменен.');
     }
 
     /**
@@ -83,9 +87,11 @@ class DiseasesController extends Controller
             ->where('DiseaseID','=', $id)
             ->delete();
         $disease = DB::table('diseases')
-            ->where('DiseaseID','=', $id)
+            ->where('ID','=', $id)
             ->delete();
 
-        return redirect()->route('diseases.index')->with('success', 'Недуг успешно удален.');
+        return redirect()
+            ->route('diseases.index')
+            ->with('warning', 'Недуг удален.');
     }
 }

@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        GroupID - flower watering group id
         Schema::create('flower_waterings', function (Blueprint $table) {
-            $table->bigIncrements('WateringID');
-            $table->bigInteger('FlowerID')->unsigned();
+            $table->bigIncrements('ID');
+            $table->bigInteger('TypeID')->unsigned();
+            $table->bigInteger('GroupID')->unsigned();
             $table->bigInteger('FertilizerID')->unsigned();
             $table->string('FertilizerDoze')->nullable();
             $table->date('WateringDate');
             $table->timestamps();
 
-            $table->foreign('FlowerID')->references('FlowerID')->on('flowers');
-            $table->foreign('FertilizerID')->references('FertilizerID')->on('fertilizers');
+            $table->foreign('TypeID')->references('ID')->on('watering_types_of');
+            $table->foreign('GroupID')->references('ID')->on('watering_groups');
+            $table->foreign('FertilizerID')->references('ID')->on('fertilizers');
         });
     }
 

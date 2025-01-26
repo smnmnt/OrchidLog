@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Soils extends Model
 {
-    protected $primaryKey = 'SoilID';
+    protected $primaryKey = 'ID';
 }

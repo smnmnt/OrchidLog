@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Flowers;
 use App\Models\Fertilizers;
+use App\Models\Placements;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -18,9 +19,7 @@ class FlowersController extends Controller
      */
     public function main(): View|Factory|Application
     {
-        $fertilizers = DB::table('fertilizers')
-            ->get();
-        return view('main', compact('fertilizers'));
+        return view('main');
     }
 
     /**
@@ -32,7 +31,14 @@ class FlowersController extends Controller
             ->get();
         $fertilizers = DB::table('fertilizers')
             ->get();
-        return view('lists.index', compact('fertilizers'));
+        $soils = DB::table('soils')
+            ->get();
+        $diseases = DB::table('diseases')
+            ->get();
+        $placements = DB::table('placements')
+            ->get();
+
+        return view('lists.index', compact('fertilizers','soils','diseases', 'placements'));
     }
 
     /**
@@ -40,7 +46,7 @@ class FlowersController extends Controller
      */
     public function create()
     {
-        //
+        return view('placements.create');
     }
 
     /**
@@ -48,15 +54,32 @@ class FlowersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $placement = new Placements();
+
+        $placement->PlacementName = $request->input('Name');
+
+        $placement->save();
+        return redirect()
+            ->route('placements.index')
+            ->with('success', 'Место успешно добавлено');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Flowers $flowers)
+    public function show($id)
     {
-        //
+        $flowers = DB::table('flowers')
+            ->join('flower_images', 'flower_images.FlowerID', '=', 'flowers.ID')
+            ->join('blooms','blooms.FlowerID','=','flowers.ID')
+            ->join('transplantings','transplantings.FlowerID','=','flowers.ID')
+            ->join('flower_s_t_links','flower_s_t_links.TPID','=','transplantings.ID')
+            ->join('waterings','waterings.FlowerID','=','flowers.ID')
+            ->join('flower_disease_links', 'flower_disease_links.FlowerID', '=', 'flowers.ID')
+            ->where('PlacementID', '=', $id)
+            ->get();
+
+        return view('flowers.show', compact('flowers'));
     }
 
     /**

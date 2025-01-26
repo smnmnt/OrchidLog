@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('soils', function (Blueprint $table) {
-            $table->bigIncrements('SoilID');
-            $table->string('SoilName');
+            $table->bigIncrements('ID');
+            $table->string('Name');
             $table->timestamps();
         });
     }

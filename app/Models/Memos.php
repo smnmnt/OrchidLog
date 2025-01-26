@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Memos extends Model
 {
-    protected $primaryKey = 'MemoID';
+    protected $primaryKey = 'ID';
 }

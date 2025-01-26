@@ -13,8 +13,7 @@ class FertilizersController extends Controller
      */
     public function index()
     {
-        $fertilizers = DB::table('fertilizers')
-            ->get();
+        $fertilizers = Fertilizers::all();
         return view('fertilizers.index', compact('fertilizers'));
     }
 
@@ -33,11 +32,13 @@ class FertilizersController extends Controller
     {
         $fertilizers = new Fertilizers();
 
-        $fertilizers->FertilizerName = $request->input('FertilizerName');
-        $fertilizers->FertilizerDesc = $request->input('FertilizerDesc');
+        $fertilizers->Name = $request->input('Name');
+        $fertilizers->Desc = $request->input('Desc');
         $fertilizers->save();
 
-        return redirect()->route('fertilizers.index')->with('success', 'Удобрение успешно добавлено.');
+        return redirect()
+            ->route('fertilizers.index')
+            ->with('success', 'Удобрение успешно добавлено.');
     }
 
     /**
@@ -45,7 +46,7 @@ class FertilizersController extends Controller
      */
     public function show($id)
     {
-        $fertilizer = Fertilizers::where('FertilizerID','=',$id)
+        $fertilizer = Fertilizers::where('ID','=',$id)
             ->get();
         return view('fertilizers.show', compact('fertilizer'));
     }
@@ -55,7 +56,7 @@ class FertilizersController extends Controller
      */
     public function edit($id)
     {
-        $fertilizer = Fertilizers::where('FertilizerID','=',$id)
+        $fertilizer = Fertilizers::where('ID','=',$id)
         ->get();
         return view('fertilizers.edit', compact('fertilizer'));
     }
@@ -67,12 +68,14 @@ class FertilizersController extends Controller
     {
         $fertilizer = Fertilizers::find($id);
 
-        $fertilizer->FertilizerName = $request->input('FertilizerName');
-        $fertilizer->FertilizerDesc = $request->input('FertilizerDesc');
+        $fertilizer->Name = $request->input('Name');
+        $fertilizer->Desc = $request->input('Desc');
 
         $fertilizer->update();
 
-        return redirect()->route('fertilizers.index')->with('success', 'Удобрение успешно изменено.');
+        return redirect()
+            ->route('fertilizers.index')
+            ->with('success', 'Удобрение успешно изменено.');
     }
 
     /**
@@ -84,9 +87,11 @@ class FertilizersController extends Controller
             ->where('FertilizerID', '=', $id)
             ->delete();
         $fertilizer = DB::table('fertilizers')
-            ->where('FertilizerID', '=', $id)
+            ->where('ID', '=', $id)
             ->delete();
 
-        return redirect()->route('fertilizers.index')->with('success', 'Удобрение успешно удалено.');
+        return redirect()
+            ->route('fertilizers.index')
+            ->with('warning', 'Удобрение успешно удалено.');
     }
 }

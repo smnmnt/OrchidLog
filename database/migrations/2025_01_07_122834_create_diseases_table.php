@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        mot - method of treatment
         Schema::create('diseases', function (Blueprint $table) {
-            $table->bigIncrements('DiseaseID');
-            $table->string('DiseaseName');
-            $table->longText('DiseaseNotes')->nullable();
-            $table->longText('DiseaseMethodOfTreatment')->nullable();
+            $table->bigIncrements('ID');
+            $table->string('Name');
+            $table->longText('Desc')->nullable();
+            $table->longText('MOT')->nullable();
             $table->timestamps();
         });
     }

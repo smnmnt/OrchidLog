@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ОрхоЛог | {{ $title }}</title>
+    <title>ОрхоЛог / {{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('./storage/bootstrap-5.0.2-dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('./storage/css/style.css') }}">
     <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/bootstrap.js')}}"></script>
@@ -11,7 +11,7 @@
 <body>
 <header class="header">
     <div class="container header_container">
-        <span class="header_headline header_home_link"><a href="/" class="header_home_link">Орхо<span>Лог</span></a> | {{ $title }}</span>
+        <span class="header_headline header_home_link"><a href="/" class="header_home_link">Орхо<span>Лог</span></a> / {{ $title }}</span>
 
     </div>
 </header>
@@ -30,13 +30,23 @@
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+            @elseif(session('danger'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('danger') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @elseif(session('warning'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ session('warning') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
         @endif
     </div>
     <!-- /.container messages-container -->
 </section>
 <!-- /.messages-section -->
 <section class="main">
-    <div class="container">
+    <div class="container main-container">
         @yield ('content')
     </div>
 </section>

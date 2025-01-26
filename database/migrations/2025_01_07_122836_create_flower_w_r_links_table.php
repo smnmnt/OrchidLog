@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('flower_images', function (Blueprint $table) {
-            $table->bigIncrements('FlowerImageID');
+//        wrid - watering reqs id
+        Schema::create('flower_w_r_links', function (Blueprint $table) {
+            $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
-            $table->string('FlowerImage');
+            $table->bigInteger('WRID')->unsigned();
             $table->timestamps();
-
-            $table->foreign('FlowerID')->references('FlowerID')->on('flowers');
+            $table->foreign('FlowerID')->references('ID')->on('flowers');
+            $table->foreign('WRID')->references('ID')->on('watering_requirements');
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('flower_images');
+        Schema::dropIfExists('flower_w_r_links');
     }
 };

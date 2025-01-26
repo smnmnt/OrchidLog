@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flower_Blooms extends Model
 {
-    protected $primaryKey = 'FlowerBloomID';
+    protected $primaryKey = 'ID';
 }

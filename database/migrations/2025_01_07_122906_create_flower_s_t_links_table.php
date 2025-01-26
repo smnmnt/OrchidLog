@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        TPID - transplanting id
         Schema::create('flower_s_t_links', function (Blueprint $table) {
-            $table->bigIncrements('STLinkID');
-            $table->bigInteger('TransplantingID')->unsigned();
+            $table->bigIncrements('ID');
+            $table->bigInteger('TPID')->unsigned();
             $table->bigInteger('SoilID')->unsigned();
             $table->timestamps();
 
-            $table->foreign('TransplantingID')->references('TransplantingID')->on('flower_transplantings');
-            $table->foreign('SoilID')->references('SoilID')->on('soils');
+            $table->foreign('TPID')->references('ID')->on('flower_transplantings');
+            $table->foreign('SoilID')->references('ID')->on('soils');
         });
     }
 
