@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('flower_waterings', function (Blueprint $table) {
             $table->bigIncrements('ID');
             $table->bigInteger('TypeID')->unsigned();
-            $table->bigInteger('GroupID')->unsigned();
-            $table->bigInteger('FertilizerID')->unsigned();
+            $table->bigInteger('GroupID')->unsigned()->nullable();
+            $table->bigInteger('FertilizerID')->unsigned()->nullable();
             $table->string('FertilizerDoze')->nullable();
             $table->date('WateringDate');
             $table->timestamps();

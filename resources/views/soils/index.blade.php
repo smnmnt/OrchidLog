@@ -6,9 +6,9 @@
     @if(isset($soils) && sizeof($soils))
         <li class="list-group-item mb-5"><a href="{{route('soils.create')}}" class="link-primary">Добавить</a></li>
         <ol class="list-group list-group-numbered">
-            @foreach($soils as $soil)
-                <li class="list-group-item text"><a href="{{ route('soils.show', ['id' => $soil->ID]) }}">
-                        {{nameLimiter($soil->Name)}}
+            @foreach($soils as $Unit)
+                <li class="list-group-item text"><a href="{{ route('soils.show', ['id' => $Unit->ID]) }}">
+                        {{nameLimiter($Unit->Name)}}
                     </a></li>
             @endforeach
         </ol>

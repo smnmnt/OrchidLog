@@ -84,6 +84,7 @@ class FertilizersController extends Controller
     public function destroy($id)
     {
         $waterings = DB::table('flower_waterings')
+            ->join('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.ID')
             ->where('FertilizerID', '=', $id)
             ->delete();
         $fertilizer = DB::table('fertilizers')

@@ -29,7 +29,7 @@
                       onsubmit="return confirm('Удалить почву {{$Unit->Name}}? Будут удалены ВСЕ связанные с почвой пересадки! (Растения не удалятся.)');">
                     @csrf
                     @method('DELETE')
-                    <input type="submit" class="btn btn-danger standart-btn btn-close" aria-label="Close" value="">
+                    <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">
                     <!-- /.standart-btn -->
                 </form>
             </div>

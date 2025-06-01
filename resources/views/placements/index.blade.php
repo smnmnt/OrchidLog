@@ -6,9 +6,9 @@
         @if(isset($placements) && sizeof($placements))
             <li class="list-group-item mb-5"><a href="{{route('placements.create')}}" class="link-primary">Добавить</a></li>
             <ol class="list-group list-group-numbered">
-            @foreach($placements as $placement)
-                    <li class="list-group-item text"><a href="{{ route('placements.show', ['id' => $placement->ID]) }}">
-                            {{nameLimiter($placement->Name)}}
+            @foreach($placements as $Unit)
+                    <li class="list-group-item text"><a href="{{ route('placements.show', ['id' => $Unit->ID]) }}">
+                            {{nameLimiter($Unit->Name)}}
                         </a></li>
             @endforeach
             </ol>

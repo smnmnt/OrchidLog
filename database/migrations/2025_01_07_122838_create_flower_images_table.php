@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('flower_images', function (Blueprint $table) {
             $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
+            $table->boolean('IsMain')->default(false);
             $table->string('Link');
             $table->timestamps();
 

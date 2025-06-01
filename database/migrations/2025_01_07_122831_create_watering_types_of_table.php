@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('watering_types_of', function (Blueprint $table) {
             $table->bigIncrements('ID');
-            $table->string('Name');
+            $table->string('WateringName');
+            $table->string('TypeOfImg');
             $table->timestamps();
         });
     }

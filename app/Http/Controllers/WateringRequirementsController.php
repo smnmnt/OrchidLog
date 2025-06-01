@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Watering_Requirements;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WateringRequirementsController extends Controller
 {
@@ -12,7 +13,8 @@ class WateringRequirementsController extends Controller
      */
     public function index()
     {
-        //
+        $watering_requirements = Watering_Requirements::all();
+        return view('watering_reqs.index', compact('watering_requirements'));
     }
 
     /**
@@ -20,7 +22,7 @@ class WateringRequirementsController extends Controller
      */
     public function create()
     {
-        //
+        return view('watering_reqs.create');
     }
 
     /**
@@ -28,38 +30,67 @@ class WateringRequirementsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $watering_requirement = new Watering_Requirements();
+
+        $watering_requirement->Name = $request->input('Name');
+
+        $watering_requirement->save();
+        return redirect()
+            ->route('watering_reqs.index')
+            ->with('success', 'Место успешно добавлено');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Watering_Requirements $watering_requirements)
+    public function show($id)
     {
-        //
+        $watering_requirement = Watering_Requirements::where('ID', '=', $id)
+            ->get();
+
+        return view('watering_reqs.show', compact('watering_requirement'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Watering_Requirements $watering_requirements)
+    public function edit($id)
     {
-        //
+        $watering_requirement = Watering_Requirements::where('ID', '=', $id)
+            ->get();
+
+        return view('watering_reqs.edit', compact('watering_requirement'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Watering_Requirements $watering_requirements)
+    public function update(Request $request, $id)
     {
-        //
+        $watering_requirement = Watering_Requirements::find($id);
+
+        $watering_requirement->Name = $request->input('Name');
+
+        $watering_requirement->update();
+        return redirect()
+            ->route('watering_reqs.index')
+            ->with('success', 'Место успешно изменено');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Watering_Requirements $watering_requirements)
+    public function destroy($id)
     {
-        //
+        $watering_requirement_link = DB::table('flower_w_r_links')
+            ->where('WRID', '=', $id)
+            ->delete();
+        $watering_requirement = DB::table('watering_requirements')
+            ->where('ID', '=', $id)
+            ->delete();
+
+        return redirect()
+            ->route('watering_reqs.index')
+            ->with('warning', 'Место успешно удалено.');
     }
 }

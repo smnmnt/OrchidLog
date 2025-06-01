@@ -6,7 +6,8 @@
     <title>ОрхоЛог / {{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('./storage/bootstrap-5.0.2-dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('./storage/css/style.css') }}">
-    <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/bootstrap.js')}}"></script>
+    <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/bootstrap.bundle.js')}}"></script>
+    <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/jquery-3.7.1.slim.js')}}"></script>
 </head>
 <body>
 <header class="header">
@@ -54,8 +55,8 @@
 <div class="fixed-menu">
     <div class="container fixed-menu_container">
         <a href="{{ route('lists.index') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/list.svg') }}" alt="list icon"></a>
-        <a href="{{ route('lists.adding') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/plus.svg') }}" alt="plus icon"></a>
-        <a href="#" class="fixed-menu_link"><img src="{{ asset('./storage/img/droplet.svg') }}" alt="droplet icon"></a>
+        <a href="{{ route('flowers.create') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/plus.svg') }}" alt="plus icon"></a>
+        <a href="{{ route('watering.index') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/droplet.svg') }}" alt="droplet icon"></a>
     </div>
 </div>
 </body>

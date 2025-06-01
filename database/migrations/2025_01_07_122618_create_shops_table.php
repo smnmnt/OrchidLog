@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->bigIncrements('ID');
             $table->string('Name');
-            $table->string('Link');
+            $table->string('Link')->nullable();
             $table->timestamps();
         });
     }

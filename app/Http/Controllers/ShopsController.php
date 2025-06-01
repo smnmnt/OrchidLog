@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shops;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ShopsController extends Controller
 {
@@ -12,7 +13,8 @@ class ShopsController extends Controller
      */
     public function index()
     {
-        //
+        $shops = Shops::all();
+        return view('shops.index', compact('shops'));
     }
 
     /**
@@ -20,7 +22,7 @@ class ShopsController extends Controller
      */
     public function create()
     {
-        //
+        return view('shops.create');
     }
 
     /**
@@ -28,38 +30,73 @@ class ShopsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $shop = new Shops();
+
+        $shop->Name = $request->input('Name');
+        $shop->Link = $request->input('Link');
+
+        $shop->save();
+        return redirect()
+            ->route('shops.index')
+            ->with('success', 'Место успешно добавлено');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Shops $shops)
+    public function show($id)
     {
-        //
+        $shop = Shops::where('ID', '=', $id)
+            ->get();
+
+        return view('shops.show', compact('shop'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Shops $shops)
+    public function edit($id)
     {
-        //
+        $shop = Shops::where('ID', '=', $id)
+            ->get();
+
+        return view('shops.edit', compact('shop'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shops $shops)
+    public function update(Request $request, $id)
     {
-        //
+        $shop = Shops::find($id);
+
+        $shop->Name = $request->input('Name');
+        $shop->Link = $request->input('Link');
+
+        $shop->update();
+        return redirect()
+            ->route('shops.index')
+            ->with('success', 'Место успешно изменено');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shops $shops)
+    public function destroy($id)
     {
-        //
+        $shop_link = DB::table('flower_shop_links')
+            ->where('ShopID', '=', $id)
+            ->delete();
+        $shop = DB::table('shops')
+            ->where('ID', '=', $id)
+            ->delete();
+
+        return redirect()
+            ->route('shops.index')
+            ->with('warning', 'Место успешно удалено.');
+
+
+
+
     }
 }
