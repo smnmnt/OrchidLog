@@ -69,6 +69,7 @@ class FlowersController extends Controller
     public function index()
     {
         $flowers = DB::table('flowers')
+        	->orderBy('flowers.name')
             ->get();
         $fertilizers = DB::table('fertilizers')
             ->get();
