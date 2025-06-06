@@ -36,7 +36,14 @@ class FlowersController extends Controller
      */
     public function main()
     {
-        return view('main');
+    	$flower = DB::table('flowers')
+    		->join('flower_images', 'flowers.ID', '=', 'flower_images.FlowerID')
+    		->where('flower_images.IsMain', true)
+    		->inRandomOrder()
+    		->select('flowers.*', 'flower_images.Link as ImageLink')
+    		->first();
+    		
+        return view('main', compact('flower'));
     }
 
     /**
@@ -69,7 +76,10 @@ class FlowersController extends Controller
     public function index()
     {
         $flowers = DB::table('flowers')
-        	->orderBy('flowers.name')
+        	->leftJoin('flower_blooms', 'flower_blooms.FlowerID','=', 'flowers.ID')
+        	->select('flowers.*', DB::raw('MAX(flower_blooms.updated_at) as LastBloom'))
+        	->groupBy('flowers.ID')
+        	->orderByRaw('LastBloom IS NOT NUll, LastBloom ASC')
             ->get();
         $fertilizers = DB::table('fertilizers')
             ->get();
