@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('FlowerID')->unsigned();
             $table->bigInteger('TOPID')->unsigned();
             $table->date('DOT');
-            $table->string('SOP');
+            $table->string('SOP')->nullable();
             $table->timestamps();
 
             $table->foreign('FlowerID')->references('ID')->on('flowers');
