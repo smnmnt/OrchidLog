@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Полив от '. $waterings->first()->WateringDate])
+@extends('layouts.layout', ['title' =>  __('watering.watering'). $waterings->first()->WateringDate])
 
 @section('content')
 

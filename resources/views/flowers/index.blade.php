@@ -1,10 +1,10 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Растения'])
+@extends('layouts.layout', ['title' =>  __('flower.ds')])
 
 @section('content')
     @if(isset($flowers) && sizeof($flowers))
-        <li class="list-group-item mb-5"><a href="{{route('flowers.create')}}" class="link-primary">Добавить</a></li>
+        <li class="list-group-item mb-5"><a href="{{route('flowers.create')}}" class="link-primary">{{  __('basic.add') }}</a></li>
         <ol class="list-group list-group-numbered">
             @foreach($flowers as $Unit)
                 <a href="{{route('flowers.show', ['id' => $Unit->ID])}}">
@@ -18,6 +18,6 @@
             @endforeach
         </ol>
     @else
-        <li class="list-group-item">Здесь пусто. <a href="{{route('flowers.create')}}" class="link-primary">Добавить</a></li>
+        <li class="list-group-item">Здесь пусто. <a href="{{route('flowers.create')}}" class="link-primary">{{  __('basic.add') }}</a></li>
     @endif
 @endsection

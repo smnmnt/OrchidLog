@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование пересадки'])
+@extends('layouts.layout', ['title' => __('tp.edit_d')])
 
 @section('content')
     <form action="{{ route('flowers.transplantings.update', ['id' => $transplanting->ID]) }}" method="post" class="form-box" enctype="multipart/form-data">

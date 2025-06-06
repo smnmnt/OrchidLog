@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование обработки'])
+@extends('layouts.layout', ['title' => __('wtr.edit_d')])
 
 @section('content')
     <form action="{{ route('flowers.waterings.update', ['id' => $watering->ID]) }}" method="post" class="form-box" enctype="multipart/form-data">

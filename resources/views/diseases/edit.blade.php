@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование недуга'])
+@extends('layouts.layout', ['title' => __('disease.edit_d')])
 
 @section('content')
     @foreach($disease as $Unit) @endforeach

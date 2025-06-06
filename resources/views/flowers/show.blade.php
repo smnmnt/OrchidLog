@@ -1,6 +1,6 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Обзор'])
+@extends('layouts.layout', ['title' => __('basic.watching')])
 @php setlocale(LC_ALL, 'ru_RU.UTF-8');
     $nmeng = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
     $nmrus = array('Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря');
@@ -50,7 +50,7 @@
                             <form action="{{ route('flowers.destroy', ['id' => $Unit->ID]) }}"
                                   class="delete-btn"
                                   method="post"
-                                  onsubmit="return confirm('Удалить растение? *{{$Unit->Name}}*? Также будут удалены ВСЕ связанные обработки, пересадки и изображения!');">
+                                  onsubmit="return confirm('{{ __('flower.del_d',['name' => $Unit->Name])}}');">
                                 @csrf
                                 @method('DELETE')
                                 <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

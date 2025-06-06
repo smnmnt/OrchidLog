@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование растения'])
+@extends('layouts.layout', ['title' =>  __('flower.add_d')])
 
 @section('content')
     @foreach($flowers as $Unit) @endforeach

@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Добавление удобрения'])
+@extends('layouts.layout', ['title' => __('fert.add_d')])
 
 @section('content')
     <form action="{{ route('fertilizers.store') }}" method="post" class="form-box" enctype="multipart/form-data">

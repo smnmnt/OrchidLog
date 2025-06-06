@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Добавление'])
+@extends('layouts.layout', ['title' => __('basic.adding')])
 
 @section('content')
             <div class="list-group">

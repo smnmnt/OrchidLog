@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ОрхоЛог / {{ $title }}</title>
+    <title>{{ __('basic.site_name') }} / {{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('./storage/bootstrap-5.0.2-dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('./storage/css/style.css') }}">
     <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/bootstrap.bundle.js')}}"></script>
@@ -12,7 +12,7 @@
 <body>
 <header class="header">
     <div class="container header_container">
-        <span class="header_headline header_home_link"><a href="/" class="header_home_link">Орхо<span>Лог</span></a> / {{ $title }}</span>
+        <span class="header_headline header_home_link"><a href="/" class="header_home_link">{{ __('basic.site_name') }}</a> / {{ $title }}</span>
 
     </div>
 </header>
@@ -59,5 +59,6 @@
         <a href="{{ route('watering.index') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/droplet.svg') }}" alt="droplet icon"></a>
     </div>
 </div>
+@include('parts.textAreaResizer')
 </body>
 </html>

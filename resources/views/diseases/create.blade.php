@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Добавление недуга'])
+@extends('layouts.layout', ['title' => __('disease.add_d')])
 
 @section('content')
     <form action="{{ route('diseases.store') }}" method="post" class="form-box" enctype="multipart/form-data">

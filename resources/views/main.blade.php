@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Главная'])
+@extends('layouts.layout', ['title' => __('basic.m_tp')])
 
 @section('content')
 @if($flower)

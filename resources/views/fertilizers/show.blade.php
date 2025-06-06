@@ -1,6 +1,6 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' => __('basic.watching')])
 
 @section('content')
     @foreach($fertilizer as $Unit)
@@ -22,7 +22,7 @@
                 <form action="{{ route('fertilizers.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить удобрение {{$Unit->Name}}? Будут удалены ВСЕ связанные с удобрением поливы! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{ __('fert.del_d', ['name' => $Unit->Name]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn btn-danger standart-btn btn-close" aria-label="Close" value="">

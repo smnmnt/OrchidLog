@@ -1,8 +1,8 @@
 <div class="row mb-3">
-    <label for="TypeID" class="form-label">Тип посадки
-        <select class="form-select" name="TypeID" aria-label="Тип">
+    <label for="TypeID" class="form-label">{{ __('tp.top') }}
+        <select class="form-select" name="TypeID" aria-label="{{ __('tp.top') }}">
             @if(empty($old_type))
-                <option selected disabled>Выберите тип</option>
+                <option selected disabled>{{ __('basic.sel') }}</option>
             @else
                     <option value="{{ $old_type->ID }}" name="{{ $old_type->Name }}" id="{{ $old_type->Name }}">{{ $old_type->Name }}</option>
             @endif

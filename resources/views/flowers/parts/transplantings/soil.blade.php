@@ -1,5 +1,5 @@
 <div class="row mb-3">
-    <p>Выберите составляющие почвы:</p>
+    <p>{{ __('tp.sel_s') }}</p>
     @if(!empty($old_soils))
         @foreach($old_soils as $soil)
             <div class="form-check checkbox-soils">
@@ -18,7 +18,7 @@
             </div>
         @endforeach
     @else
-        <p>В БД нет почв.</p>
-        <li class="list-group-item mb-5"><a href="{{route('soils.create') }}" class="link-primary">Добавить</a></li>
+        <p>{{ __('tp.empty_s') }}</p>
+        <li class="list-group-item mb-5"><a href="{{route('soils.create') }}" class="link-primary">{{ __('basic.add') }}</a></li>
     @endif
 </div>

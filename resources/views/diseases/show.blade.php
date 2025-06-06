@@ -1,12 +1,4 @@
-{{--@include('parts.nameLimiter')--}}
-
-{{--@php--}}
-{{--    if (isset($disease)) {--}}
-{{--        $title = nameLimiter($disease->first()->DiseaseName);--}}
-{{--    }--}}
-{{--@endphp--}}
-
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' => __('basic.watching')])
 
 @section('content')
     @foreach($disease as $Unit)
@@ -30,7 +22,7 @@
                 <form action="{{ route('diseases.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить недуг {{$Unit->Name}}? Недуг будет отвязан от растений и удален! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{ __('disease.del_d', ['name' => $Unit->Name]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn btn-danger standart-btn btn-close" aria-label="Close" value="">

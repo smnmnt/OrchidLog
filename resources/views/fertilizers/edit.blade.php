@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование удобрения'])
+@extends('layouts.layout', ['title' => __('fert.edit_d')])
 
 @section('content')
     @foreach($fertilizer as $Unit) @endforeach
