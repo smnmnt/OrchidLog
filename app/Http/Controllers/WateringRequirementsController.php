@@ -48,8 +48,12 @@ class WateringRequirementsController extends Controller
     {
         $watering_requirement = Watering_Requirements::where('ID', '=', $id)
             ->get();
+        $flowers = DB::table('flowers')
+            ->join('flower_w_r_links', 'flower_w_r_links.FlowerID', '=', 'flowers.ID')
+            ->where('flower_w_r_links.WRID', '=', $id)
+            ->get();
 
-        return view('watering_reqs.show', compact('watering_requirement'));
+        return view('watering_reqs.show', compact('watering_requirement', 'flowers'));
     }
 
     /**

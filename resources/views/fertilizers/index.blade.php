@@ -8,7 +8,7 @@
             <ol class="list-group list-group-numbered">
             @foreach($fertilizers as $Unit)
                     <li class="list-group-item text"><a href="{{ route('fertilizers.show', ['id' => $Unit->ID]) }}">
-                            {{nameLimiter($Unit->Name)}}
+                            {{($Unit->Name)}}
                         </a></li>
             @endforeach
             </ol>

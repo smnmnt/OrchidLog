@@ -89,7 +89,7 @@
                             <tbody>
                             @foreach($flowers as $index => $flower)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $loop->iteration }} </td>
                                     <td>{{ $flower->Name }}</td>
                                     <td>{{ $flower->Notes }}</td>
                                     <td><a href="{{ route('flowers.show', ['id' => $flower->ID]) }}" class="btn btn-sm btn-outline-primary">Подробнее</a></td>

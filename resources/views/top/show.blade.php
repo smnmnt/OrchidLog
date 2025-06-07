@@ -28,5 +28,28 @@
                 </form>
             </div>
         </div>
+        @if(isset($tps) && sizeof($tps))
+            <div class="table-responsive mt-2">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th scope="col">{{ __('flower.d') }}</th>
+                        <th scope="col">{{ __('tp.dot') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($tps as $tp)
+                        <tr onclick="window.location='{{ route('flowers.show', ['id' => $tp->FlowerID]) }}'" style="cursor: pointer;">
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $tp->Name ?? '—' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($tp->DOT)->format('d.m.Y') }}</td>
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+        @endif
     @endforeach
 @endsection

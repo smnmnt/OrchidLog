@@ -29,7 +29,7 @@
                             <img src="{{ '/storage/img/bloom.svg' }}" alt="blooms">
                         </button>
                         <button class="nav-link" id="nav-waterings-tab" data-bs-toggle="tab" data-bs-target="#nav-waterings" type="button" role="tab" aria-controls="nav-waterings" aria-selected="false">
-                            <img src="{{ '/storage/img/drop.svg' }}" alt="waterings">
+                            <img src="{{ '/storage/img/droplet2.svg' }}" alt="waterings">
                         </button>
                         <button class="nav-link" id="nav-transplantings-tab" data-bs-toggle="tab" data-bs-target="#nav-transplantings" type="button" role="tab" aria-controls="nav-transplantings" aria-selected="false">
                             <img src="{{ '/storage/img/recycle.svg' }}" alt="transplantings">

@@ -48,8 +48,12 @@ class PlacementsController extends Controller
     {
         $placement = Placements::where('ID', '=', $id)
         ->get();
+        $flowers = DB::table('flowers')
+            ->join('flower_placement_links', 'flowers.ID', '=', 'flower_placement_links.FlowerID')
+            ->where('flower_placement_links.PlacementID', '=', $id)
+            ->get();
 
-        return view('placements.show', compact('placement'));
+        return view('placements.show', compact('placement', 'flowers'));
     }
 
     /**

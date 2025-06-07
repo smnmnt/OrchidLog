@@ -30,5 +30,32 @@
                 </form>
             </div>
         </div>
+
+        @if(isset($waterings) && sizeof($waterings))
+            <table class="table table-striped table-bordered text-left align-middle mt-2">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th scope="col">{{ __('wtr.date') }}</th>
+                    <th scope="col">{{ __('wtr.type') }}</th>
+                    <th scope="col">{{ __('wtr.fert') }}</th>
+                    <th scope="col">{{ __('wtr.group') }}</th>
+                    <th scope="col">{{ __('wtr.count') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($waterings as $watering)
+                    <tr onclick="window.location='{{ route('global_watering.show', ['id' => $watering->ID]) }}'" style="cursor: pointer;">
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ \Carbon\Carbon::parse($watering->WateringDate)->format('d.m.Y') }}</td>
+                        <td>{{ $watering->TypeOfImg ?? '—' }}</td>
+                        <td>{{ $watering->FertilizerName ? ($watering->FertilizerName . ' - ' . $watering->FertilizerDoze) : '—' }}</td>
+                        <td>{{ $watering->GroupName ?? __('wtr.all_p') }}</td>
+                        <td>{{ $watering->FlowerCount }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
     @endforeach
 @endsection

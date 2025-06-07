@@ -50,7 +50,28 @@ class FertilizersController extends Controller
     {
         $fertilizer = Fertilizers::where('ID','=',$id)
             ->get();
-        return view('fertilizers.show', compact('fertilizer'));
+
+        $waterings = DB::table('flower_waterings')
+            ->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
+            ->leftJoin('fertilizers', 'flower_waterings.FertilizerID', '=', 'fertilizers.ID')
+            ->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
+            ->leftJoin('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
+            ->where('flower_waterings.FertilizerID','=',$id)
+
+            ->select(
+                'flower_waterings.*',
+                'watering_types_of.WateringName',
+                'watering_types_of.TypeOfImg',
+                'fertilizers.Name as FertilizerName',
+                'watering_groups.Name as GroupName',
+                DB::raw('COUNT(flower_watering_links.FlowerID) as FlowerCount')
+            )
+            ->groupBy('flower_waterings.ID')
+            ->orderByDesc('WateringDate')
+            ->orderByDesc('updated_at')
+            ->get();
+
+        return view('fertilizers.show', compact('fertilizer', 'waterings'));
     }
 
     /**

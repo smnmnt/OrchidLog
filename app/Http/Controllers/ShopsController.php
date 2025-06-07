@@ -50,8 +50,11 @@ class ShopsController extends Controller
     {
         $shop = Shops::where('ID', '=', $id)
             ->get();
-
-        return view('shops.show', compact('shop'));
+        $flowers = DB::table('flowers')
+            ->join('flower_shop_links', 'flowers.ID', '=', 'flower_shop_links.FlowerID')
+            ->where('flower_shop_links.ShopID', '=', $id)
+            ->get();
+        return view('shops.show', compact('shop', 'flowers'));
     }
 
     /**

@@ -30,5 +30,21 @@
                 </form>
             </div>
         </div>
+        @if(isset($flowers) && sizeof($flowers))
+            <table class="table table-striped table-bordered text-left align-middle mt-2">
+                <thead>
+                <tr>
+                    <th scope="col">{{ __('flower.d') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($flowers as $flower)
+                    <tr onclick="window.location='{{ route('flowers.show', ['id' => $flower->FlowerID]) }}'" style="cursor: pointer;">
+                        <td>{{ $flower->Name }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
     @endforeach
 @endsection
