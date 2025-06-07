@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('flower_transplantings', function (Blueprint $table) {
             $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
-            $table->bigInteger('TOPID')->unsigned();
+            $table->bigInteger('TOPID')->unsigned()->nullable();
             $table->date('DOT');
             $table->string('SOP')->nullable();
             $table->timestamps();

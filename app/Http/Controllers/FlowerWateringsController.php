@@ -63,7 +63,9 @@ class FlowerWateringsController extends Controller
                 }
         }
 
-        return redirect()->route('watering.index')->with('success', 'Полив успешно добавлен.');
+        return redirect()
+            ->route('global_watering.show', ['id' => $watering_id] )
+            ->with('success', 'wtr.added_d');
     }
 
     /**
@@ -159,7 +161,11 @@ class FlowerWateringsController extends Controller
             }
         }
 
-        return redirect()->route('watering.index')->with('success', 'Полив успешно обновлён.');
+//        return redirect()->route('watering.index')->with('success', 'wtr.edited_d');
+
+        return redirect()
+            ->route('global_watering.show', compact('id'))
+            ->with('success', 'wtr.edited_d');
     }
 
     /**
@@ -171,17 +177,23 @@ class FlowerWateringsController extends Controller
         DB::table('flower_watering_links')->where('WateringID', $id)->delete();
         DB::table('flower_waterings')->where('ID', $id)->delete();
 
-        return redirect()->route('watering.index')->with('warning', 'Полив удалён.');
+        return redirect()->route('watering.index')->with('warning', 'wtr.deleted_d');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    // Удаление глобального полива
-    public function destroy_link($id)
+    // Удаление связи с глобальным поливом
+    public function destroy_link($WateringID, $id)
     {
-        DB::table('flower_watering_links')->where('WateringID', $id)->delete();
+        DB::table('flower_watering_links')
+            ->where('WateringID', $WateringID)
+            ->where('FlowerID', $id)
+            ->delete();
 
-        return redirect()->route('flowers.show.index')->with('warning', 'Полив удалён.');
+        return redirect()
+            ->route('flowers.show', compact('id'))
+            ->with('success', "wtr.deleted_link");
     }
 }

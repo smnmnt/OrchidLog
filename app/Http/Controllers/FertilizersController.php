@@ -36,9 +36,11 @@ class FertilizersController extends Controller
         $fertilizers->Desc = $request->input('Desc');
         $fertilizers->save();
 
+        $id = $fertilizers->ID;
+
         return redirect()
-            ->route('fertilizers.index')
-            ->with('success', 'Удобрение успешно добавлено.');
+            ->route('fertilizers.show', compact('id'))
+            ->with('success', 'fert.added_d');
     }
 
     /**
@@ -74,8 +76,8 @@ class FertilizersController extends Controller
         $fertilizer->update();
 
         return redirect()
-            ->route('fertilizers.index')
-            ->with('success', 'Удобрение успешно изменено.');
+            ->route('fertilizers.show', compact('id'))
+            ->with('success', 'fert.edited_d');
     }
 
     /**
@@ -93,6 +95,6 @@ class FertilizersController extends Controller
 
         return redirect()
             ->route('fertilizers.index')
-            ->with('warning', 'Удобрение успешно удалено.');
+            ->with('warning', 'fert.deleted_d');
     }
 }

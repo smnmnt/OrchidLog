@@ -35,9 +35,10 @@ class PlacementsController extends Controller
         $placement->Name = $request->input('Name');
 
         $placement->save();
+        $id = $placement->ID;
         return redirect()
-            ->route('placements.index')
-            ->with('success', 'Место успешно добавлено');
+            ->route('placements.show', compact('id'))
+            ->with('success', 'flower.added_plc');
     }
 
     /**
@@ -73,8 +74,8 @@ class PlacementsController extends Controller
 
         $placement->update();
         return redirect()
-            ->route('placements.index')
-            ->with('success', 'Место успешно изменено');
+            ->route('placements.show', compact('id'))
+            ->with('success', 'flower.edited_plc');
     }
 
     /**
@@ -91,7 +92,7 @@ class PlacementsController extends Controller
 
         return redirect()
             ->route('placements.index')
-            ->with('warning', 'Место успешно удалено.');
+            ->with('warning', 'flower.deleted_plc');
 
 
 

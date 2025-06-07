@@ -322,7 +322,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Растение успешно сохранено.");
+            ->with('success', "flower.added_d");
     }
 
     /**
@@ -356,7 +356,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Растение успешно сохранено.");
+            ->with('success', "flower.added_img");
     }
 
     /**
@@ -374,7 +374,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Растение успешно сохранено.");
+            ->with('success', "bloom.added_d");
     }
 
     /**
@@ -399,7 +399,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Полив успешно добавлен.");
+            ->with('success', "wtr.added_d");
     }
     /**
      * Store a newly created resource in storage.
@@ -427,7 +427,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Пересадка успешно добавлена.");
+            ->with('success', "tp.added_d");
     }
     /**
      * Store a newly created resource in storage.
@@ -443,7 +443,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Недуг добавлен.");
+            ->with('success', "disease.added_d");
     }
 
     /**
@@ -774,7 +774,7 @@ class FlowersController extends Controller
         }
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Растение успешно обновлено.");
+            ->with('success', "flower.edited_d");
     }
 
     public function update_img($id)
@@ -793,7 +793,7 @@ class FlowersController extends Controller
         $id = $flower_ID;
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Успех.");
+            ->with('success', "flower.main_img");
     }
 
     /**
@@ -810,7 +810,7 @@ class FlowersController extends Controller
         $id = $bloom->FlowerID;
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', 'Цветение успешно обновлено');
+            ->with('success', 'bloom.edited_d');
     }
     /**
      * Update the specified resource in storage.
@@ -839,7 +839,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', 'Цветение успешно обновлено');
+            ->with('success', 'wtr.edited_d');
     }
 
     /**
@@ -876,7 +876,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', 'Цветение успешно обновлено');
+            ->with('success', 'tp.edited_d');
     }
 
     /**
@@ -934,7 +934,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.index')
-            ->with('warning', "Растение удалено.");
+            ->with('warning', "flower.deleted_d");
     }
 
     /**
@@ -957,7 +957,7 @@ class FlowersController extends Controller
         $id = $flower_ID;
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('success', "Растение успешно сохранено.");
+            ->with('success', "flower.deleted_img");
     }
     /**
      * Remove the specified resource from storage.
@@ -970,7 +970,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('warning', "Цветение удалено.");
+            ->with('warning', "bloom.deleted_d");
     }
     /**
      * Remove the specified resource from storage.
@@ -981,11 +981,10 @@ class FlowersController extends Controller
         $watering_link = Flower_Watering_Links::where('WateringID', '=', $id)->first();
         $id = $watering_link->FlowerID;
         $watering_link->delete();
-        $watering->delete();
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('warning', "Обработка удалена.");
+            ->with('warning', "wtr.deleted_link");
     }
     /**
      * Remove the specified resource from storage.
@@ -1006,7 +1005,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('warning', "Пересадка удалена.");
+            ->with('warning', "tp.deleted_d");
     }
     /**
      * Remove the specified resource from storage.
@@ -1019,7 +1018,7 @@ class FlowersController extends Controller
 
         return redirect()
             ->route('flowers.show', compact('id'))
-            ->with('warning', "Недуг удален.");
+            ->with('warning', "disease.deleted_d");
     }
 
 }

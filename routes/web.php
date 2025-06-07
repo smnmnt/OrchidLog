@@ -12,6 +12,7 @@ Route::get('/global-watering/show/{id}', [\App\Http\Controllers\FlowerWateringsC
 Route::post('/global-watering/store', [\App\Http\Controllers\FlowerWateringsController::class, 'store'])->name('global_watering.store');
 Route::patch('/global_watering/show/{id}', [\App\Http\Controllers\FlowerWateringsController::class, 'update'])->name('global_watering.update');
 Route::delete('/global_watering/{id}', [\App\Http\Controllers\FlowerWateringsController::class, 'destroy'])->name('global_watering.destroy');
+Route::delete('/global_watering_link/{WateringId}_{id}', [\App\Http\Controllers\FlowerWateringsController::class, 'destroy_link'])->name('global_watering.destroy_link');
 
 Route::get('/lists/index', [\App\Http\Controllers\FlowersController::class, 'list'])->name('lists.index');
 Route::get('/lists/adding', [\App\Http\Controllers\FlowersController::class, 'adding'])->name('lists.adding');
@@ -30,11 +31,11 @@ Route::post('/flowers/store/bloom/{id}', [\App\Http\Controllers\FlowersControlle
 Route::patch('/flowers/show/bloom/{id}', [\App\Http\Controllers\FlowersController::class, 'update_blooms'])->name('flowers.blooms.update');
 Route::delete('/flowers/bloom/{id}', [\App\Http\Controllers\FlowersController::class, 'destroy_blooms'])->name('flowers.blooms.destroy');
 
-Route::get('/flowers/create/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'create_waterings'])->name('flowers.waterings.create');
-Route::get('/flowers/edit/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'edit_waterings'])->name('flowers.waterings.edit');
-Route::post('/flowers/store/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'store_waterings'])->name('flowers.waterings.store');
-Route::patch('/flowers/show/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'update_waterings'])->name('flowers.waterings.update');
-Route::delete('/flowers/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'destroy_waterings'])->name('flowers.waterings.destroy');
+//Route::get('/flowers/create/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'create_waterings'])->name('flowers.waterings.create');
+//Route::get('/flowers/edit/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'edit_waterings'])->name('flowers.waterings.edit');
+//Route::post('/flowers/store/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'store_waterings'])->name('flowers.waterings.store');
+//Route::patch('/flowers/show/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'update_waterings'])->name('flowers.waterings.update');
+//Route::delete('/flowers/watering/{id}', [\App\Http\Controllers\FlowersController::class, 'destroy_waterings'])->name('flowers.waterings.destroy');
 
 Route::get('/flowers/create/transplanting/{id}', [\App\Http\Controllers\FlowersController::class, 'create_transplantings'])->name('flowers.transplantings.create');
 Route::get('/flowers/edit/transplanting/{id}', [\App\Http\Controllers\FlowersController::class, 'edit_transplantings'])->name('flowers.transplantings.edit');

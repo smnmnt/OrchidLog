@@ -36,9 +36,10 @@ class WateringTypesOfController extends Controller
         $tow->TypeOfImg     = $request->input('Icon');
 
         $tow->save();
+        $id = $tow->ID;
         return redirect()
-            ->route('tow.index')
-            ->with('success', 'Тип обработки успешно добавлен');
+            ->route('tow.show', compact('id'))
+            ->with('success', 'wtr.added_type');
     }
 
     /**
@@ -75,8 +76,8 @@ class WateringTypesOfController extends Controller
 
         $tow->update();
         return redirect()
-            ->route('tow.index')
-            ->with('success', 'Место успешно изменено');
+            ->route('tow.show', compact('id'))
+            ->with('success', 'wtr.edited_type');
     }
 
     /**
@@ -85,9 +86,8 @@ class WateringTypesOfController extends Controller
     public function destroy($id)
     {
         $waterings = DB::table('flower_waterings')
-            ->join('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.ID')
             ->where('TypeID', '=', $id)
-            ->delete();
+            ->update(['TypeID' => null] );
 
         $tow = DB::table('watering_types_of')
             ->where('ID', '=', $id)
@@ -95,6 +95,6 @@ class WateringTypesOfController extends Controller
 
         return redirect()
             ->route('tow.index')
-            ->with('warning', 'Место успешно удалено.');
+            ->with('warning', 'wtr.deleted_type');
     }
 }

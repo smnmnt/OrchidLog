@@ -35,9 +35,10 @@ class WateringGroupsController extends Controller
         $wg->Name = $request->input('Name');
 
         $wg->save();
+        $id = $wg->ID;
         return redirect()
-            ->route('wg.index')
-            ->with('success', 'Место успешно добавлено');
+            ->route('wg.show', compact('id'))
+            ->with('success', 'wtr.added_wg');
     }
 
     /**
@@ -73,8 +74,8 @@ class WateringGroupsController extends Controller
 
         $wg->update();
         return redirect()
-            ->route('wg.index')
-            ->with('success', 'Место успешно изменено');
+            ->route('wg.show', compact('id'))
+            ->with('success', 'wtr.edited_wg');
     }
 
     /**
@@ -83,9 +84,8 @@ class WateringGroupsController extends Controller
     public function destroy($id)
     {
         $waterings = DB::table('flower_waterings')
-            ->join('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.ID')
             ->where('GroupID', '=', $id)
-            ->delete();
+            ->update(['GroupID' => null] );
 
         $wg = DB::table('watering_groups')
             ->where('ID', '=', $id)
@@ -93,6 +93,6 @@ class WateringGroupsController extends Controller
 
         return redirect()
             ->route('wg.index')
-            ->with('warning', 'Место успешно удалено.');
+            ->with('warning', 'wtr.deleted_wg');
     }
 }

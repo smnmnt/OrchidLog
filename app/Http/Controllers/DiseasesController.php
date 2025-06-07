@@ -37,9 +37,10 @@ class DiseasesController extends Controller
         $disease->Desc = $request->input('Desc');
         $disease->MOT = $request->input('MOT');
         $disease->save();
+        $id = $disease->ID;
         return redirect()
-            ->route('diseases.index')
-            ->with('success', 'Недуг добавлен.');
+            ->route('diseases.show', compact('id'))
+            ->with('success', 'disease.added_d');
     }
 
     /**
@@ -74,8 +75,8 @@ class DiseasesController extends Controller
         $disease->MOT = $request->input('MOT');
         $disease->update();
         return redirect()
-            ->route('diseases.index')
-            ->with('success', 'Недуг изменен.');
+            ->route('diseases.show', compact('id'))
+            ->with('success', 'disease.edited_d');
     }
 
     /**
@@ -92,6 +93,6 @@ class DiseasesController extends Controller
 
         return redirect()
             ->route('diseases.index')
-            ->with('warning', 'Недуг удален.');
+            ->with('warning', 'disease.deleted_d');
     }
 }

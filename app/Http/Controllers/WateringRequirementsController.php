@@ -35,9 +35,10 @@ class WateringRequirementsController extends Controller
         $watering_requirement->Name = $request->input('Name');
 
         $watering_requirement->save();
+        $id = $watering_requirement->ID;
         return redirect()
-            ->route('watering_reqs.index')
-            ->with('success', 'Место успешно добавлено');
+            ->route('watering_reqs.show', compact('id'))
+            ->with('success', 'wtr.added_wr');
     }
 
     /**
@@ -73,8 +74,8 @@ class WateringRequirementsController extends Controller
 
         $watering_requirement->update();
         return redirect()
-            ->route('watering_reqs.index')
-            ->with('success', 'Место успешно изменено');
+            ->route('watering_reqs.show', compact('id'))
+            ->with('success', 'wtr.edited_wr');
     }
 
     /**
@@ -85,12 +86,13 @@ class WateringRequirementsController extends Controller
         $watering_requirement_link = DB::table('flower_w_r_links')
             ->where('WRID', '=', $id)
             ->delete();
+
         $watering_requirement = DB::table('watering_requirements')
             ->where('ID', '=', $id)
             ->delete();
 
         return redirect()
             ->route('watering_reqs.index')
-            ->with('warning', 'Место успешно удалено.');
+            ->with('warning', 'wtr.deleted_wr');
     }
 }

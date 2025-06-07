@@ -35,9 +35,11 @@ class TypesOfPlantingController extends Controller
         $top->Name = $request->input('Name');
 
         $top->save();
+
+        $id = $top->ID;
         return redirect()
-            ->route('top.index')
-            ->with('success', 'Место успешно добавлено');
+            ->route('top.show', compact('id'))
+            ->with('success', 'tp.added_top');
     }
 
     /**
@@ -73,8 +75,8 @@ class TypesOfPlantingController extends Controller
 
         $top->update();
         return redirect()
-            ->route('top.index')
-            ->with('success', 'Место успешно изменено');
+            ->route('top.show', compact('id'))
+            ->with('success', 'tp.edited_top');
     }
 
     /**
@@ -84,13 +86,14 @@ class TypesOfPlantingController extends Controller
     {
         $transplant = DB::table('flower_transplantings')
             ->where('TOPID', '=', $id)
-            ->delete();
+            ->update(['TOPID' => null] );
+
         $top = DB::table('types_of_planting')
             ->where('ID', '=', $id)
             ->delete();
 
         return redirect()
             ->route('top.index')
-            ->with('warning', 'Место успешно удалено.');
+            ->with('warning', 'tp.deleted_top');
     }
 }

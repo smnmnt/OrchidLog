@@ -36,9 +36,11 @@ class ShopsController extends Controller
         $shop->Link = $request->input('Link');
 
         $shop->save();
+
+        $id = $shop->ID;
         return redirect()
-            ->route('shops.index')
-            ->with('success', 'Место успешно добавлено');
+            ->route('shops.show', compact("id"))
+            ->with('success', 'flower.added_shop');
     }
 
     /**
@@ -75,8 +77,8 @@ class ShopsController extends Controller
 
         $shop->update();
         return redirect()
-            ->route('shops.index')
-            ->with('success', 'Место успешно изменено');
+            ->route('shops.show', compact($id))
+            ->with('success', 'flower.edited_shop');
     }
 
     /**
@@ -93,7 +95,7 @@ class ShopsController extends Controller
 
         return redirect()
             ->route('shops.index')
-            ->with('warning', 'Место успешно удалено.');
+            ->with('warning', 'flower.deleted_shop');
 
 
 

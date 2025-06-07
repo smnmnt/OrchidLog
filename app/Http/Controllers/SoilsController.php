@@ -35,9 +35,11 @@ class SoilsController extends Controller
         $soils->Name = $request->input('Name');
 
         $soils->save();
+
+        $id = $soils->ID;
         return redirect()
-            ->route('soils.index')
-            ->with('success', 'Почва успешно добавлена.');
+            ->route('soils.show', compact('id'))
+            ->with('success', 'tp.added_soil');
     }
 
     /**
@@ -72,8 +74,8 @@ class SoilsController extends Controller
         $soil->update();
 
         return redirect()
-            ->route('soils.index')
-            ->with('success', "Почва успешно отредактирована");
+            ->route('soils.show', compact('id'))
+            ->with('success', "tp.edited_soil");
     }
 
     /**
@@ -89,7 +91,7 @@ class SoilsController extends Controller
             ->delete();
         return redirect()
             ->route('soils.index')
-            ->with('warning', 'Почва, и все связанные с ней пересадки удалены.');
+            ->with('warning', 'tp.deleted_soil');
 
     }
 }
