@@ -2,10 +2,11 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage/
 !/public/storage/css
+/public/storage/
 /storage/*.key
 /storage/pail
+!/storage/app/public/css
 /vendor
 .env
 .env.backup

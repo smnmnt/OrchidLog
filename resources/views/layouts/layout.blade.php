@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ __('basic.site_name') }} / {{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('./storage/bootstrap-5.0.2-dist/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('./storage/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('./css/style.css') }}">
     <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/bootstrap.bundle.js')}}"></script>
     <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/jquery-3.7.1.slim.js')}}"></script>
 </head>
