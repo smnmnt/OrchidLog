@@ -1,6 +1,6 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' => __('basic.watching') ])
 
 @section('content')
     @foreach($top as $Unit)
@@ -20,7 +20,7 @@
                 <form action="{{ route('top.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить тип посадки *{{$Unit->Name}}*? Будут удалены ВСЕ связи места с растениями! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{ __('tp.del_top', ['name' => $Unit->Name]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

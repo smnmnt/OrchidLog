@@ -1,12 +1,4 @@
-{{--@include('parts.nameLimiter')--}}
-
-{{--@php--}}
-{{--if (isset($soil)) {--}}
-{{--    $title = nameLimiter($soil->first()->SoilName);--}}
-{{--}--}}
-{{--@endphp--}}
-
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' =>  __('basic.watching') ])
 
 @section('content')
     @foreach($soil as $Unit)
@@ -26,7 +18,7 @@
                 <form action="{{ route('soils.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить почву {{$Unit->Name}}? Будут удалены ВСЕ связанные с почвой пересадки! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{ __('tp.del_soil', ['name' => $Unit->Name]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

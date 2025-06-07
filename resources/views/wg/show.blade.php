@@ -1,6 +1,6 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' =>  __('basic.watching')])
 
 @section('content')
     @foreach($wg as $Unit)
@@ -20,7 +20,7 @@
                 <form action="{{ route('wg.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить группу обработки *{{$Unit->Name}}*? Будут удалены ВСЕ обработки использующие эту группу! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{__( 'wtr.del_wg',[ 'name' => $UnitName ]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

@@ -11,7 +11,7 @@
             <form action="{{ route('flowers.update_img_main', ['id' => $flower_img_un->ID]) }}"
                   class=""
                   method="post"
-                  onsubmit="return confirm('Удалить растение? *{{$Unit->Name}}*? Также будут удалены ВСЕ связанные обработки, пересадки и изображения!');">
+                  onsubmit="return confirm('{{ __('flower.del_img', ['name' => $Unit->Name]) }}');">
                 @csrf
                 @method('PATCH')
                 <input type="submit" class="btn standart-btn" aria-label="Update" style="background-image: url({{ asset('/storage/img/star.svg') }});" value="">
@@ -21,7 +21,7 @@
         <form action="{{ route('flowers.destroy_img', ['id' => $flower_img_un->ID]) }}"
               class="delete-btn"
               method="post"
-              onsubmit="return confirm('Удалить растение? *{{$Unit->Name}}*? Также будут удалены ВСЕ связанные обработки, пересадки и изображения!');">
+              onsubmit="return confirm('{{ __('flower.del_img', ['name' => $Unit->Name]) }}');">
             @csrf
             @method('DELETE')
             <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

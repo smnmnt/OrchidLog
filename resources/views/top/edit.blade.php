@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование типа посадки'])
+@extends('layouts.layout', ['title' => __('tp.edit_top')])
 
 @section('content')
     @foreach($top as $Unit) @endforeach

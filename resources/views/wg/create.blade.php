@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Добавление группы обработки'])
+@extends('layouts.layout', ['title' => __('wtr.add_wg')])
 
 @section('content')
     <form action="{{ route('wg.store') }}" method="post" class="form-box" enctype="multipart/form-data">

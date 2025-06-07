@@ -1,6 +1,6 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' => __('basic.watching')])
 
 @section('content')
     @foreach($shop as $Unit)
@@ -22,7 +22,7 @@
                 <form action="{{ route('shops.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить магазин {{$Unit->Name}}? Будут удалены ВСЕ связи магазина с растениями! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{ __('flower.del_shop', ['name' => $Unit->Name]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

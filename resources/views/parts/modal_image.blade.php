@@ -8,7 +8,7 @@
                 <img src="" class="imagepreview" style="width: 100%;" >
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('basic.close') }}</button>
             </div>
         </div>
     </div>

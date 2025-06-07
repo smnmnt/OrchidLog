@@ -173,4 +173,15 @@ class FlowerWateringsController extends Controller
 
         return redirect()->route('watering.index')->with('warning', 'Полив удалён.');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    // Удаление глобального полива
+    public function destroy_link($id)
+    {
+        DB::table('flower_watering_links')->where('WateringID', $id)->delete();
+
+        return redirect()->route('flowers.show.index')->with('warning', 'Полив удалён.');
+    }
 }

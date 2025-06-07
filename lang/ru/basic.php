@@ -9,14 +9,20 @@ return [
     |
     */
 
-    'site_name' => 'ОрхоЛог',
-    'm_tp' => 'Главная', //main title page
-    'add' => 'Добавить', //main title page
-    'adding' => 'Добавление', //main title page
+    'site_name'     => 'ОрхоЛог',
+    'm_tp'          => 'Главная', //main title page
+    'add'           => 'Добавить', //main title page
+    'adding'        => 'Добавление', //main title page
+    'send'          => 'Отправить данные', //main title page
     'nothings_here' => 'Здесь пусто. ',
-    'watching' => 'Просмотр',
-    'lookout' => 'Обзор',
-    'sel' => 'Выберите',
-    'name' => 'Наименование',
+    'watching'      => 'Просмотр',
+    'lookout'       => 'Обзор',
+    'sel'           => 'Выберите',
+    'name'          => 'Наименование',
+    'desc'          => 'Описание',
+    'link'          => 'Ссылка',
+    'goto'          => 'Перейти',
+    'close'         => 'Закрыть',
+    'notes'         => 'Заметки',
 
 ];

@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование места'])
+@extends('layouts.layout', ['title' => __('flower.edit_plc')])
 
 @section('content')
     @foreach($placement as $Unit) @endforeach

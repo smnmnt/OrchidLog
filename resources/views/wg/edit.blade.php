@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование группы обработки'])
+@extends('layouts.layout', ['title' => __('wtr.edit_wg')])
 
 @section('content')
     @foreach($wg as $Unit) @endforeach

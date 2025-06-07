@@ -1,6 +1,6 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Просмотр'])
+@extends('layouts.layout', ['title' => __('basic.watching')])
 
 @section('content')
     @foreach($watering_requirement as $Unit)
@@ -20,7 +20,7 @@
                 <form action="{{ route('watering_reqs.destroy', ['id' => $Unit->ID]) }}"
                       class="delete-btn"
                       method="post"
-                      onsubmit="return confirm('Удалить место {{$Unit->Name}}? Будут удалены ВСЕ связи места с растениями! (Растения не удалятся.)');">
+                      onsubmit="return confirm('{{__( 'wtr.del_wr',[ 'name' => $UnitName ]) }}');">
                     @csrf
                     @method('DELETE')
                     <input type="submit" class="btn standart-btn" aria-label="Close" style="background-image: url({{ asset('/storage/img/trash.svg') }});" value="">

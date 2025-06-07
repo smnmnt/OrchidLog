@@ -1,8 +1,8 @@
 <div class="row mb-3">
-    <label for="WRID" class="form-label"> Условия полива
-        <select class="form-select" name="WRID" aria-label="Условия полива">
+    <label for="WRID" class="form-label">{{ __('flower.wr') }}
+        <select class="form-select" name="WRID" aria-label="{{ __('flower.wr') }}">
             @if(empty($old_wrs))
-                <option selected disabled>Условия полива</option>
+                <option selected disabled>{{ __('flower.wr') }}</option>
             @else
                 @foreach($old_wrs as $old_el)
                     <option value="{{ $old_el->ID }}" name="{{ $old_el->Name }}" id="{{ $old_el->Name }}">{{ $old_el->Name }}</option>

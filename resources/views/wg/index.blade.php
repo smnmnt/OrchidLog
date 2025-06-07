@@ -1,18 +1,18 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' => 'Группы обработки'])
+@extends('layouts.layout', ['title' => __('wtr.wgs')])
 
 @section('content')
         @if(isset($wg) && sizeof($wg))
-            <li class="list-group-item mb-5"><a href="{{route('wg.create')}}" class="link-primary">Добавить</a></li>
+            <li class="list-group-item mb-5"><a href="{{route('wg.create')}}" class="link-primary">{{ __('basic.add') }}</a></li>
             <ol class="list-group list-group-numbered">
             @foreach($wg as $Unit)
                     <li class="list-group-item text"><a href="{{ route('wg.show', ['id' => $Unit->ID]) }}">
-                            {{nameLimiter($Unit->Name)}}
+                            {{$Unit->Name}}
                         </a></li>
             @endforeach
             </ol>
         @else
-            <li class="list-group-item">Здесь пусто. <a href="{{route('wg.create')}}" class="link-primary">Добавить</a></li>
+            <li class="list-group-item">{{ __('basic.nothings_here') }}<a href="{{route('wg.create')}}" class="link-primary">{{ __('basic.add') }}</a></li>
         @endif
 @endsection

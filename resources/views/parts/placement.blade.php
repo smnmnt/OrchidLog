@@ -1,8 +1,8 @@
 <div class="row mb-3">
-    <label for="PlacementID" class="form-label"> Место
-        <select class="form-select" name="PlacementID" aria-label="Место">
+    <label for="PlacementID" class="form-label">{{ __('flower.plc') }}
+        <select class="form-select" name="PlacementID" aria-label="{{ __('flower.plc') }}">
             @if(empty($old_placements))
-                <option selected disabled>Выберите место</option>
+                <option selected disabled>{{ __('flower.sel_plc') }}</option>
             @else
                 @foreach($old_placements as $old_el)
                     <option value="{{ $old_el->ID }}" name="{{ $old_el->Name }}" id="{{ $old_el->Name }}">{{ $old_el->Name }}</option>

@@ -42,7 +42,7 @@ class FlowersController extends Controller
     		->inRandomOrder()
     		->select('flowers.*', 'flower_images.Link as ImageLink')
     		->first();
-    		
+
         return view('main', compact('flower'));
     }
 
@@ -59,6 +59,7 @@ class FlowersController extends Controller
             ->select(
                 'flower_waterings.*',
                 'watering_types_of.WateringName',
+                'watering_types_of.TypeOfImg',
                 'fertilizers.Name as FertilizerName',
                 'watering_groups.Name as GroupName',
                 DB::raw('COUNT(flower_watering_links.FlowerID) as FlowerCount')

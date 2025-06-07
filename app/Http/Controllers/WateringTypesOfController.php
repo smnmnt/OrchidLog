@@ -32,16 +32,9 @@ class WateringTypesOfController extends Controller
     {
         $tow = new Watering_Types_Of();
 
-        $tow->WateringName = $request->input('Name');
-        $nameWithoutSpaces = str_replace(array(' ', '?', '!'), '', $tow->Name);
-        if ($files = $request->file('Images')) {
-            foreach ($files as $file) {
-                $name = time().'.'.$file->extension();
-                $path = 'storage/wot/' . $nameWithoutSpaces . '/';
-                $url = '/'.$file->move($path, $name);
-                $tow->TypeOfImg = $url;
-            }
-        }
+        $tow->WateringName  = $request->input('Name');
+        $tow->TypeOfImg     = $request->input('Icon');
+
         $tow->save();
         return redirect()
             ->route('tow.index')
@@ -77,17 +70,9 @@ class WateringTypesOfController extends Controller
     {
         $tow = Watering_Types_Of::find($id);
 
-        $tow->WateringName = $request->input('Name');
+        $tow->WateringName  = $request->input('Name');
+        $tow->TypeOfImg     = $request->input('Icon');
 
-        $nameWithoutSpaces = str_replace(array(' ', '?', '!'), '', $tow->Name);
-        if ($files = $request->file('Images')) {
-            foreach ($files as $file) {
-                $name = time().'.'.$file->extension();
-                $path = 'storage/wot/' . $nameWithoutSpaces . '/';
-                $url = '/'.$file->move($path, $name);
-                $tow->TypeOfImg = $url;
-            }
-        }
         $tow->update();
         return redirect()
             ->route('tow.index')

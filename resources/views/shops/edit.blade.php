@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование магазина'])
+@extends('layouts.layout', ['title' => __('flower.edit_shop')])
 
 @section('content')
     @foreach($shop as $Unit) @endforeach

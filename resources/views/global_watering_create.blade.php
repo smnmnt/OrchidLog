@@ -1,52 +1,48 @@
-@extends('layouts.layout', ['title' => 'Полив'])
+@extends('layouts.layout', ['title' => __('wtr.d')])
 
 @section('content')
     <div class="container">
-        <h2>Массовый полив</h2>
-        <form method="POST" action="{{ route('global_watering.store') }}">
+        <form method="POST" action="{{ route('global_watering.store') }}" class="form-box" enctype="multipart/form-data">
             @csrf
-            <div class="form-group">
-                <label for="WateringDate">Дата полива</label>
-                <input type="date" class="form-control" name="WateringDate" required>
+            <div class="row mb-3">
+                <label for="WateringDate">{{ __('wtr.wd') }}*
+                    <input type="date" class="form-control" name="WateringDate" required></label>
             </div>
-            <div class="form-group">
-                <label for="TypeID">Тип полива</label>
-                <select class="form-control" name="TypeID" required>
-                    @foreach($types as $type)
-                        <option value="{{ $type->ID }}">{{ $type->WateringName }}</option>
-                    @endforeach
-                </select>
+            <div class="row mb-3">
+                <label for="TypeID">{{ __('wtr.name_d') }}*
+                    <select class="form-control" name="TypeID" required>
+                        @foreach($types as $type)
+                            <option value="{{ $type->ID }}">{{ $type->WateringName }}</option>
+                        @endforeach
+                    </select>
+                </label>
             </div>
-            <div class="form-group">
-                <label for="FertilizerID">Удобрение (опционально)</label>
-                <select class="form-control" name="FertilizerID">
-                    <option value="">—</option>
-                    @foreach($fertilizers as $fertilizer)
-                        <option value="{{ $fertilizer->ID }}">{{ $fertilizer->Name }}</option>
-                    @endforeach
-                </select>
+            <div class="row mb-3">
+                <label for="FertilizerID">{{ __('wtr.fert') }}
+                    <select class="form-control" name="FertilizerID">
+                        <option value="">—</option>
+                        @foreach($fertilizers as $fertilizer)
+                            <option value="{{ $fertilizer->ID }}">{{ $fertilizer->Name }}</option>
+                        @endforeach
+                    </select>
+                </label>
             </div>
-            <div class="form-group">
-                <label for="FertilizerDoze">Дозировка удобрения</label>
-                <input type="text" class="form-control" name="FertilizerDoze">
+            <div class="row mb-3">
+                <label for="FertilizerDoze">{{ __('wtr.doze') }}
+                    <input type="text" class="form-control" name="FertilizerDoze">
+                </label>
             </div>
-            <div class="form-group">
-                <label for="GroupID">Группа растений (необязательно)</label>
-                <select class="form-control" name="GroupID">
-                    <option value="">Все растения</option>
-                    @foreach($groups as $group)
-                        <option value="{{ $group->ID }}">{{ $group->Name }}</option>
-                    @endforeach
-                </select>
+            <div class="row mb-3">
+                <label for="GroupID">{{ __('wtr.wg') }}
+                    <select class="form-control" name="GroupID">
+                        <option value="">{{ __('wtr.all_p') }}</option>
+                        @foreach($groups as $group)
+                            <option value="{{ $group->ID }}">{{ $group->Name }}</option>
+                        @endforeach
+                    </select>
+                </label>
             </div>
-            <button type="submit" class="btn btn-success mt-3">Полить</button>
+            @include('parts.submit')
         </form>
     </div>
 @endsection
-{{--@if(isset($fertilizers) && sizeof($fertilizers))--}}
-{{--    @foreach($fertilizers as $fertilizer)--}}
-{{--        {{$fertilizer->FertilizerName}}--}}
-{{--    @endforeach--}}
-{{--@else--}}
-{{--    NAnnnn--}}
-{{--@endif--}}

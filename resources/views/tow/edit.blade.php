@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование типа обработки'])
+@extends('layouts.layout', ['title' => __('wtr.edit_type')])
 
 @section('content')
     @foreach($tow as $Unit) @endforeach
@@ -7,20 +7,11 @@
         @csrf
         @php
             $UnitName   = $Unit->WateringName;
+            $UnitIcon   = $Unit->TypeOfImg;
         @endphp
         @include('parts.name')
-        @if(isset($Unit->TypeOfImg))
-            <div class="album">
-                <div class="album_el">
-                    <div class="card card_gallery_item shadow-sm pop" style="background-image: url({{$Unit->TypeOfImg}}); background-size:cover;">
-                        <div class="card-body">
-                            <img src="{{$Unit->TypeOfImg}}" alt="{{ $Unit->Name }}" style="display: none;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-        @include('parts.image_input')
+        @include('tow.parts.icon')
+
         @include('parts.submit')
     </form>
 @endsection

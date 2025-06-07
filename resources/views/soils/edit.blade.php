@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование почвы'])
+@extends('layouts.layout', ['title' => __('tp.edit_soil')])
 
 @section('content')
     @foreach($soil as $Unit) @endforeach

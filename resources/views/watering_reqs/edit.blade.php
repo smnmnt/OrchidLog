@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' => 'Редактирование требований к поливу'])
+@extends('layouts.layout', ['title' => __('wtr.edit_wr')])
 
 @section('content')
     @foreach($watering_requirement as $Unit) @endforeach
