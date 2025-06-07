@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\FlowersController::class, 'main'])->name('flowers.main');
 
+Route::get('/flowers/search', [\App\Http\Controllers\FlowersController::class, 'search'])->name('flowers.search');
+
 Route::get('/watering', [\App\Http\Controllers\FlowersController::class, 'watering_index'])->name('watering.index');
 Route::get('/global-watering/create', [\App\Http\Controllers\FlowerWateringsController::class, 'create'])->name('global_watering.create');
 Route::get('/global-watering/edit/{id}', [\App\Http\Controllers\FlowerWateringsController::class, 'edit'])->name('global_watering.edit');

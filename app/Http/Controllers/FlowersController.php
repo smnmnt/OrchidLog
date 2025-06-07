@@ -46,6 +46,17 @@ class FlowersController extends Controller
         return view('main', compact('flower'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $flowers = DB::table('flowers')
+            ->where('Name', 'like', "%$query%")
+            ->orWhere('Notes', 'like', "%$query%")
+            ->get();
+
+        return view('flowers.index', compact('flowers'));
+    }
+
     /**
      * Display a listing of the resource.
      */
