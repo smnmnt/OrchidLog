@@ -26,6 +26,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use function Laravel\Prompts\table;
 
 
@@ -257,7 +258,7 @@ class FlowersController extends Controller
                 $flower_images->isMain = true;
 
                 $name = $file->getFilename();
-                $path = 'storage/flowers/' . $nameWithoutSpaces . $id . '/';
+                $path = 'storage/flowers/' . Str::slug($flower_name) . '/';
                 $url = $file->move($path, $name . '.webp');
 
                 $flower_images->FlowerID = $id;
@@ -353,7 +354,7 @@ class FlowersController extends Controller
                 $flower_images = new Flower_Images();
 
                 $name = $file->getFilename();
-                $path = 'storage/flowers/' . $nameWithoutSpaces . $id . '/';
+                $path = 'storage/flowers/' . Str::slug($flower_name) . '/';
                 $url = $file->move($path, $name . '.webp');
 
                 $flower_images->FlowerID = $id;

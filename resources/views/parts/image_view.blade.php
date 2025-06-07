@@ -1,5 +1,5 @@
 <div class="album_el">
-    <div class="card card_gallery_item shadow-sm pop" style="background-image: url({{$flower_img_un->Link}}); background-size:cover;">
+    <div class="card card_gallery_item shadow-sm pop" style="background-image: url(' {{$flower_img_un->Link}} '); background-size:cover;">
         <div class="card-body">
             <img src="{{$flower_img_un->Link}}" alt="{{ $Unit->Name }}" style="display: none;">
         </div>
