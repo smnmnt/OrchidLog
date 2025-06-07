@@ -2,7 +2,8 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage
+/public/storage/
+!/public/storage/css
 /storage/*.key
 /storage/pail
 /vendor
@@ -22,6 +23,6 @@ yarn-error.log
 /.vscode
 /.zed
 
-.DS_Store
+*.DS_Store
 
 *.log

@@ -83,16 +83,14 @@
                                 <th>#</th>
                                 <th>Название</th>
                                 <th>Описание</th>
-                                <th>Действие</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($flowers as $index => $flower)
-                                <tr>
-                                    <td>{{ $loop->iteration }} </td>
-                                    <td>{{ $flower->Name }}</td>
-                                    <td>{{ $flower->Notes }}</td>
-                                    <td><a href="{{ route('flowers.show', ['id' => $flower->ID]) }}" class="btn btn-sm btn-outline-primary">Подробнее</a></td>
+                                <tr onclick="window.location='{{ route('flowers.show', ['id' => $flower->ID]) }}'" style="cursor: pointer; padding: 1rem">
+                                    <td style="padding: 1rem">{{ $loop->iteration }} </td>
+                                    <td style="padding: 1rem">{{ $flower->Name }}</td>
+                                    <td style="padding: 1rem">{{ $flower->Notes }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

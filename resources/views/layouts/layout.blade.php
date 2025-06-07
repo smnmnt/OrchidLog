@@ -54,10 +54,11 @@
 
 <div class="fixed-menu">
     <div class="container fixed-menu_container">
-        <a href="{{ url()->previous() }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/back.svg') }}" alt="list icon"></a>
-        <a href="{{ route('lists.index') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/list2.svg') }}" alt="list icon"></a>
-        <a href="{{ route('flowers.create') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/plus2.svg') }}" alt="plus icon"></a>
-        <a href="{{ route('watering.index') }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/drop.svg') }}" alt="droplet icon"></a>
+{{--        <a href="{{ url()->previous() }}" class="fixed-menu_link"><img src="{{ asset('./storage/img/back.svg') }}" alt="list icon"></a>--}}
+        <a href="{{ route('lists.index') }}" class="fixed-menu_link"><img src="{{ asset('./icons/list2.svg') }}" alt="list icon"></a>
+        <a href="/" class="fixed-menu_link"><img src="{{ asset('./icons/homeW.svg') }}" alt="list icon"></a>
+        <a href="{{ route('flowers.create') }}" class="fixed-menu_link"><img src="{{ asset('./icons/plus2.svg') }}" alt="plus icon"></a>
+        <a href="{{ route('watering.index') }}" class="fixed-menu_link"><img src="{{ asset('./icons/drop.svg') }}" alt="droplet icon"></a>
     </div>
 </div>
 @include('parts.textAreaResizer')
