@@ -25,6 +25,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use function Laravel\Prompts\table;
@@ -342,33 +343,66 @@ class FlowersController extends Controller
      */
     public function store_img(Request $request, $id)
     {
-        $flower = DB::table('flowers')
-            ->where('ID', '=', $id)
-            ->first();
+//        $flower = DB::table('flowers')
+//            ->where('ID', '=', $id)
+//            ->first();
+//        $flower_name = $flower->Name;
+//        $allFlowerImages = Flower_Images::where('FlowerID', '=', $id)
+//            ->get();
+//        $nameWithoutSpaces = str_replace(array(' ', '?', '!'), '', $flower_name);
+//        if ($files = $request->file('Images')) {
+//            foreach ($files as $file) {
+//                $flower_images = new Flower_Images();
+//
+//                $name = $file->getFilename();
+//                $path = 'storage/flowers/' . Str::slug($flower_name) . '/';
+//                $url = $file->move($path, $name . '.webp');
+//
+//                $flower_images->FlowerID = $id;
+//                $flower_images->Link = '/' . $url;
+//                if (!sizeof($allFlowerImages)) {
+//                    $flower_images->IsMain = true;
+//                }
+//                $flower_images->save();
+//            }
+//        }
+//
+//        return redirect()
+//            ->route('flowers.show', compact('id'))
+//            ->with('success', "flower.added_img");
+
+
+        $flower = DB::table('flowers')->where('ID', '=', $id)->first();
         $flower_name = $flower->Name;
-        $allFlowerImages = Flower_Images::where('FlowerID', '=', $id)
-            ->get();
-        $nameWithoutSpaces = str_replace(array(' ', '?', '!'), '', $flower_name);
+        $slug = Str::slug($flower_name);
+        $folder = public_path("storage/flowers/$slug");
+
+        // Создаём папку, если не существует
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder, 0755, true);
+        }
+
+        $allFlowerImages = Flower_Images::where('FlowerID', '=', $id)->get();
+
         if ($files = $request->file('Images')) {
             foreach ($files as $file) {
+                $filename = uniqid() . '.webp';
+                $file->move($folder, $filename);
+
                 $flower_images = new Flower_Images();
-
-                $name = $file->getFilename();
-                $path = 'storage/flowers/' . Str::slug($flower_name) . '/';
-                $url = $file->move($path, $name . '.webp');
-
                 $flower_images->FlowerID = $id;
-                $flower_images->Link = '/' . $url;
-                if (!sizeof($allFlowerImages)) {
-                    $flower_images->IsMain = true;
-                }
+                $flower_images->Link = "/storage/flowers/$slug/$filename";
+                $flower_images->IsMain = $allFlowerImages->isEmpty();
                 $flower_images->save();
+
+                $allFlowerImages->push($flower_images); // чтобы один был IsMain
             }
         }
 
         return redirect()
-            ->route('flowers.show', compact('id'))
+            ->route('flowers.show', ['id' => $id])
             ->with('success', "flower.added_img");
+
     }
 
     /**
