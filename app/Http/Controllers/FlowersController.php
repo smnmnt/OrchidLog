@@ -415,6 +415,7 @@ class FlowersController extends Controller
         $bloom->FlowerID = $id;
         $bloom->BB = $request->input('BB');
         $bloom->BE = $request->input('BE');
+		$bloom->peduncle = $request->input('peduncle');
 
         $bloom->save();
 
@@ -851,6 +852,7 @@ class FlowersController extends Controller
 
         $bloom->BB = $request->input('BB');
         $bloom->BE = $request->input('BE');
+		$bloom->peduncle = $request->input('peduncle');
 
         $bloom->update();
         $id = $bloom->FlowerID;

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('FlowerID')->unsigned();
             $table->date('BB');
             $table->date('BE')->nullable();
+            $table->boolean('peduncle')->default(true)->comment('0 - old, 1 - new');
             $table->timestamps();
             $table->foreign('FlowerID')->references('ID')->on('flowers');
         });

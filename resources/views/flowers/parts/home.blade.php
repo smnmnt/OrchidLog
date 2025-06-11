@@ -1,5 +1,5 @@
 <fieldset disabled>
-    @include('parts.name')
+    @include('parts.flower_name')
     <div class="album">
         @foreach($flower_img_main as $flower_img_un)
             @include('parts.image_view')

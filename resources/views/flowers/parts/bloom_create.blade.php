@@ -5,6 +5,7 @@
         @csrf
         @include('flowers.parts.blooms.BB')
         @include('flowers.parts.blooms.BE')
+		@include('flowers.parts.blooms.peduncle')
         @include('parts.submit')
     </form>
 @endsection

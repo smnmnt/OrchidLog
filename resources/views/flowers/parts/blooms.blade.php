@@ -8,6 +8,7 @@
                 <th scope="col">#</th>
                 <th scope="col" class="table_blooms_40pr">{{ __('bloom.b') }}</th>
                 <th scope="col" class="table_blooms_40pr">{{ __('bloom.e') }}</th>
+				<th scope="col" class="table_blooms_40pr">{{ __('bloom.peduncle') }}</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -24,7 +25,14 @@
                             @else
                                 ----
                             @endif
-                            </td>
+						</td>
+						<td>
+							@if($bloom->peduncle)
+								{{ __('basic.new') }}
+							@else
+								{{ __('basic.old') }}
+							@endif
+						</td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,4 +1,4 @@
-@extends('layouts.layout', ['title' =>  __('flower.add_d')])
+@extends('layouts.layout', ['title' =>  __('flower.edit_d')])
 
 @section('content')
     @foreach($flowers as $Unit) @endforeach
@@ -11,7 +11,7 @@
             $UnitSize    = $Unit->Size;
             $UnitNotes    = $Unit->Notes;
         @endphp
-        @include('parts.name')
+        @include('parts.flower_name_edit')
         @include('parts.dob')
         @include('parts.size')
         @include('parts.notes')
