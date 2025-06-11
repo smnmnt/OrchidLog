@@ -28,4 +28,6 @@ yarn-error.log
 
 *.log
 
+public/storage
+
 .editorconfig
