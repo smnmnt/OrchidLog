@@ -3,7 +3,7 @@
 @section('content')
     <form action="{{ route('flowers.store') }}" method="post" class="form-box" enctype="multipart/form-data">
         @csrf
-        @include('parts.name')
+        @include('parts.flower_name_edit')
         @include('parts.dob')
         @include('parts.size')
         @include('parts.notes')
