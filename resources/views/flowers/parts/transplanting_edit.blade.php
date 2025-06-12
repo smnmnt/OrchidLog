@@ -17,4 +17,15 @@
 {{--        @endforeach--}}
         @include('parts.submit')
     </form>
+
+
+	<form action="{{ route('flowers.transplantings.destroy', ['id' => $transplanting->ID]) }}"
+		  class="btn delete-btn justify-content-end"
+		  style="padding: 0.25rem 0.35rem;"
+		  method="post"
+		  onsubmit="return confirm('{{ __('tp.del_d_f', ['name' => $transplanting->DOT]) }}');">
+		@csrf
+		@method('DELETE')
+		<input type="submit" class="btn btn-danger" aria-label="Close" name="del-but" value="{{ __('basic.del') }}">
+	</form>
 @endsection

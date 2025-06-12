@@ -10,14 +10,13 @@
                 <th scope="col" class="table_blooms_40pr">{{ __('tp.top') }}</th>
                 <th scope="col" class="table_blooms_40pr">{{ __('tp.sop') }}</th>
                 <th scope="col" class="table_blooms_40pr">{{ __('tp.dot') }}</th>
-                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             @php $i = 0; @endphp
             @foreach($transplantings as $transplanting)
                 @php $i++ @endphp
-                <tr>
+				<tr onclick="window.location='{{ route('flowers.transplantings.edit', ['id' => $transplanting->ID]) }}'" style="cursor: pointer; padding: 1rem">
                     <th scope="row"> {{$i}}</th>
                     <td>
                         @foreach($st_l as $st_l_el)
@@ -35,37 +34,6 @@
                     </td>
                     <td>{{$transplanting->SOP}}</td>
                     <td>{{ $transplanting->DOT ? (str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($transplanting->DOT)))) : "Без даты" }}</td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            </button><ul class="dropdown-menu" style="min-width: 0">
-                                <li>
-                                    <a class="dropdown-item d-flex justify-content-center" style="padding: 0.25rem 0.35rem;" href="{{ route('flowers.transplantings.edit', ['id' => $transplanting->ID]) }}">
-                                        <img src="{{ '/storage/img/pencil.svg' }}" style="padding: 6px" alt="edit">
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form action="{{ route('flowers.transplantings.destroy', ['id' => $transplanting->ID]) }}"
-                                          class="delete-btn dropdown-item"
-                                          style="padding: 0.25rem 0.35rem;"
-                                          method="post"
-                                          onsubmit="return confirm('{{ __('tp.del_d_f', ['name' => $transplanting->DOT]) }}');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <label class="w-100" for="delete_btn_bloom{{$i}}">
-                                            <input type="submit"
-                                                   class="btn standart-btn w-100"
-                                                   name="delete_btn_bloom{{$i}}"
-                                                   aria-label="Close"
-                                                   style="background-image: url({{ asset('/storage/img/trash.svg') }});"
-                                                   value="">
-                                        </label>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
                 </tr>
             @endforeach
             </tbody>

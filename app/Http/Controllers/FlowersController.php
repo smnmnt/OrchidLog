@@ -53,10 +53,30 @@ class FlowersController extends Controller
         $query = $request->input('query');
         $flowers = DB::table('flowers')
             ->where('Name', 'like', "%$query%")
-            ->orWhere('Notes', 'like', "%$query%")
-            ->get();
+            ->orWhere('Notes', 'like', "%$query%");
 
-        return view('flowers.index', compact('flowers'));
+        // Сортировка
+        switch ($request->input('sort')) {
+            case 'name_asc':
+                $flowers->orderBy('Name', 'asc');
+                break;
+            case 'name_desc':
+                $flowers->orderBy('Name', 'desc');
+                break;
+            case 'created_desc':
+                $flowers->orderBy('created_at', 'desc');
+                break;
+            case 'created_asc':
+                $flowers->orderBy('created_at', 'asc');
+                break;
+            default:
+                break;
+        }
+
+        $cardFlowers = (clone $flowers)->paginate(30);
+        $flowers = $flowers->get();
+
+        return view('flowers.index', compact('flowers', 'cardFlowers'));
     }
 
     /**
@@ -87,44 +107,47 @@ class FlowersController extends Controller
     /**
      * Display main page.
      */
-    public function index()
-    {
-        $flowers = DB::table('flowers')
-        	->leftJoin('flower_blooms', 'flower_blooms.FlowerID','=', 'flowers.ID')
-        	->select('flowers.*', DB::raw('MAX(flower_blooms.updated_at) as LastBloom'))
-        	->groupBy('flowers.ID')
-        	->orderByRaw('LastBloom IS NOT NUll, LastBloom ASC')
-            ->get();
-        $fertilizers = DB::table('fertilizers')
-            ->get();
-        $soils = DB::table('soils')
-            ->get();
-        $diseases = DB::table('diseases')
-            ->get();
-        $placements = DB::table('placements')
-            ->get();
-        $shops = DB::table('shops')
-            ->get();
-        $watering_reqs = DB::table('watering_requirements')
-            ->get();
-        $top = DB::table('types_of_planting')
-            ->get();
-        $tow = DB::table('watering_types_of')
-            ->get();
-        $wg = DB::table('watering_groups')
-            ->get();
-        return view('flowers.index',
-            compact('fertilizers',
-                'soils',
-                'diseases',
-                'placements',
-                'shops',
-                'watering_reqs',
-                'top',
-                'tow',
-                'wg',
-                'flowers'
-            ));
+	public function index(Request $request)
+	{
+		$query = $request->input('query');
+		$flowers = DB::table('flowers');
+
+		// Если введён текст — фильтруем
+		if ($query) {
+			$flowers->where(function ($q) use ($query) {
+				$q->where('flowers.Name', 'like', "%$query%")
+					->orWhere('flowers.Notes', 'like', "%$query%");
+			});
+		}
+
+		// Применение сортировки
+		switch ($request->input('sort')) {
+			case 'name_asc':
+				$flowers->orderBy('flowers.Name', 'asc');
+				break;
+			case 'name_desc':
+				$flowers->orderBy('flowers.Name', 'desc');
+				break;
+			case 'created_desc':
+				$flowers->orderBy('flowers.created_at', 'desc');
+				break;
+			case 'created_asc':
+				$flowers->orderBy('flowers.created_at', 'asc');
+				break;
+			case 'dev':
+				$flowers
+					->leftJoin('flower_blooms', 'flower_blooms.FlowerID', '=', 'flowers.ID')
+					->select('flowers.*', DB::raw('MAX(flower_blooms.updated_at) as LastBloom'))
+					->groupBy('flowers.ID');
+				break;
+			default:
+				// если сортировка не задана
+				break;
+		}
+		$cardFlowers = (clone $flowers)->paginate(30);
+		$flowers = $flowers->get();
+
+		return view('flowers.index', compact('flowers', 'cardFlowers'));
     }
 
     public function list()

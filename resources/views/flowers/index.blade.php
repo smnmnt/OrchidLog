@@ -2,26 +2,6 @@
 
 @extends('layouts.layout', ['title' =>  __('flower.ds')])
 
-{{--@section('content')--}}
-{{--    @if(isset($flowers) && sizeof($flowers))--}}
-{{--        <li class="list-group-item mb-5"><a href="{{route('flowers.create')}}" class="link-primary">{{  __('basic.add') }}</a></li>--}}
-{{--        <ol class="list-group list-group-numbered">--}}
-{{--            @foreach($flowers as $Unit)--}}
-{{--                <a href="{{route('flowers.show', ['id' => $Unit->ID])}}">--}}
-{{--                    <div class="card">--}}
-{{--                        <img src="{{ $Unit->ImageLink }}" class="card-img-top" alt="{{nameLimiter($Unit->Name)}}">--}}
-{{--                        <div class="card-body">--}}
-{{--                            <h5 class="card-title">--}}{{-- $loop->iteration --}}{{-- {{ $loop->iteration." ".$Unit->Name}}</h5>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </a>--}}
-{{--            @endforeach--}}
-{{--        </ol>--}}
-{{--    @else--}}
-{{--        <li class="list-group-item">Здесь пусто. <a href="{{route('flowers.create')}}" class="link-primary">{{  __('basic.add') }}</a></li>--}}
-{{--    @endif--}}
-{{--@endsection--}}
-
 @section('content')
     <div class="container">
         <p class="mb-1">Поиск растений</p>
@@ -31,22 +11,37 @@
                 <button class="btn btn-primary" type="submit">Поиск</button>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="view" id="listView" value="list" {{ request('view', 'list') === 'list' ? 'checked' : '' }}>
+                <input class="form-check-input" type="radio" name="view" id="listView" value="list" {{ request('view', 'cards') === 'list' ? 'checked' : '' }}>
                 <label class="form-check-label" for="listView">Список</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="view" id="cardView" value="cards" {{ request('view') === 'cards' ? 'checked' : '' }}>
+                <input class="form-check-input" type="radio" name="view" id="cardView" value="cards" {{ request('view', 'cards') === 'cards' ? 'checked' : '' }}>
                 <label class="form-check-label" for="cardView">Карточки</label>
             </div>
         </form>
+
+        <div class="mb-3">
+            <label for="sort" class="form-label">Сортировка</label>
+            <select id="sort" name="sort" class="form-select" onchange="handleSortChange(this)">
+                <option value="">По умолчанию</option>
+                <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>По названию (А-Я)</option>
+                <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>По названию (Я-А)</option>
+                <option value="created_desc" {{ request('sort') == 'created_desc' ? 'selected' : '' }}>Сначала новые</option>
+                <option value="created_asc" {{ request('sort') == 'created_asc' ? 'selected' : '' }}>Сначала старые</option>
+				<option value="dev" {{ request('sort') == 'dev' ? 'selected' : '' }}>[[Отладка]]</option>
+            </select>
+        </div>
 
         @if(isset($flowers))
             @if($flowers->isEmpty())
                 <div class="alert alert-warning">Ничего не найдено.</div>
             @else
-                @if(request('view', 'list') === 'cards')
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                        @foreach($flowers as $flower)
+                @if(request('view', 'cards') === 'cards')
+					<div class="mb-3 mt-3">
+						{{ $cardFlowers->onEachSide(1)->links('pagination::bootstrap-5') }}
+					</div>
+					<div class="row row-cols-1 row-cols-md-3 g-4">
+                        @foreach($cardFlowers as $flower)
                             <div class="col">
                                 <a href="{{ route('flowers.show', ['id' => $flower->ID]) }}">
                                     <div class="card h-100 d-flex flex-column justify-content-between">
@@ -68,14 +63,19 @@
                                         @endif
                                         <div class="card-body" style="text-align: center">
                                             <h5 class="card-title fw-light" style=" text-align: center">{{ $flower->Name }}</h5>
-                                            <p class="card-desc fw-lighter" style="margin-bottom: 0;">{{ $loop->iteration }}</p>
+                                            <p class="card-desc fw-lighter" style="margin-bottom: 0;">
+                                                {{ ($cardFlowers->currentPage() - 1) * $cardFlowers->perPage() + $loop->iteration }}
+                                            </p>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         @endforeach
                     </div>
-                @else
+					<div class="mb-3 mt-3">
+						{{ $cardFlowers->onEachSide(1)->links('pagination::bootstrap-5') }}
+					</div>
+				@else
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -109,5 +109,10 @@
                 window.location.href = url.toString();
             });
         });
+        function handleSortChange(select) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('sort', select.value);
+            window.location.href = url.toString();
+        }
     </script>
 @endsection

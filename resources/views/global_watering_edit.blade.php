@@ -67,6 +67,10 @@
                         <option value="sick">{{ __('wtr.f_disease') }}</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-outline-primary btn-sm me-2" id="select-all">Выбрать все</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="deselect-all">Снять выбор</button>
+                </div>
                 @foreach($allFlowers as $flower)
                     <div class="col-md-4 mb-2 flower-box"
                          data-blooming="{{ $flower->isBlooming ? '1' : '0' }}"
@@ -85,12 +89,12 @@
         </form>
 
         <form action="{{ route('global_watering.destroy', ['id' => $watering->ID]) }}"
-              class="delete-btn justify-content-start mt-4"
+              class="delete-btn justify-content-end mt-4"
               method="post"
               onsubmit="return confirm('{{ __('wtr.del_d', ['name' => $watering->WateringDate]) }}');">
             @csrf
             @method('DELETE')
-            <input type="submit" class="btn btn-danger" aria-label="Close" name="del-but" value="{{ __('wtr.del_d_s') }}">
+            <input type="submit" class="btn btn-danger" aria-label="Close" name="del-but" value="{{ __('basic.del') }}">
         </form>
     </div>
     <script>
@@ -105,12 +109,29 @@
                     const isBlooming = box.dataset.blooming === '1';
                     const isSick = box.dataset.sick === '1';
 
-                    if (value === 'all') {
-                        box.style.display = '';
-                    } else if (value === 'blooming') {
-                        box.style.display = isBlooming ? '' : 'none';
-                    } else if (value === 'sick') {
-                        box.style.display = isSick ? '' : 'none';
+                    let show = false;
+                    if (value === 'all') show = true;
+                    else if (value === 'blooming') show = isBlooming;
+                    else if (value === 'sick') show = isSick;
+
+                    box.style.display = show ? '' : 'none';
+                });
+            });
+
+            document.getElementById('select-all').addEventListener('click', function () {
+                document.querySelectorAll('.flower-box').forEach(box => {
+                    if (box.style.display !== 'none') {
+                        const checkbox = box.querySelector('.form-check-input');
+                        if (checkbox) checkbox.checked = true;
+                    }
+                });
+            });
+
+            document.getElementById('deselect-all').addEventListener('click', function () {
+                document.querySelectorAll('.flower-box').forEach(box => {
+                    if (box.style.display !== 'none') {
+                        const checkbox = box.querySelector('.form-check-input');
+                        if (checkbox) checkbox.checked = false;
                     }
                 });
             });
