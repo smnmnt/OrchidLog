@@ -34,7 +34,7 @@
                         @endforeach
                     </td>
                     <td>{{$transplanting->SOP}}</td>
-                    <td>{{ str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($transplanting->DOT))) }}</td>
+                    <td>{{ $transplanting->DOT ? (str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($transplanting->DOT)))) : "Без даты" }}</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

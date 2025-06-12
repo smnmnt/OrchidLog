@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigIncrements('ID');
             $table->bigInteger('FlowerID')->unsigned();
             $table->bigInteger('TOPID')->unsigned()->nullable();
-            $table->date('DOT');
+            $table->date('DOT')->nullable();
             $table->string('SOP')->nullable();
             $table->timestamps();
 
