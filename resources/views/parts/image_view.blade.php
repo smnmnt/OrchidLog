@@ -11,7 +11,7 @@
             <form action="{{ route('flowers.update_img_main', ['id' => $flower_img_un->ID]) }}"
                   class=""
                   method="post"
-                  onsubmit="return confirm('{{ __('flower.del_img', ['name' => $Unit->Name]) }}');">
+                  onsubmit="return;">
                 @csrf
                 @method('PATCH')
                 <input type="submit" class="btn standart-btn" aria-label="Update" style="background-image: url({{ asset('/storage/img/star.svg') }});" value="">
