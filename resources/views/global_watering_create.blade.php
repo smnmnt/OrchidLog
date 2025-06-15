@@ -5,43 +5,40 @@
         <form method="POST" action="{{ route('global_watering.store') }}" class="form-box" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
-                <label for="WateringDate">{{ __('wtr.wd') }}*
-                    <input type="date" class="form-control" name="WateringDate" required></label>
+                <label for="WateringDate" class="form-label">{{ __('wtr.wd') }}</label>
+				<input type="date" class="form-control" name="WateringDate" id="WateringDate" required>
             </div>
             <div class="row mb-3">
-                <label for="TypeID">{{ __('wtr.name_d') }}*
-                    <select class="form-control" name="TypeID" required>
-                        @foreach($types as $type)
-                            <option value="{{ $type->ID }}">{{ $type->WateringName }}</option>
-                        @endforeach
-                    </select>
-                </label>
+                <label for="TypeID" class="form-label">{{ __('wtr.name_d') }}</label>
+				<select class="form-control" name="TypeID" id="TypeID" required>
+					@foreach($types as $type)
+						<option value="{{ $type->ID }}">{{ $type->WateringName }}</option>
+					@endforeach
+				</select>
             </div>
             <div class="row mb-3">
-                <label for="FertilizerID">{{ __('wtr.fert') }}
-                    <select class="form-control" name="FertilizerID">
-                        <option value="">—</option>
-                        @foreach($fertilizers as $fertilizer)
-                            <option value="{{ $fertilizer->ID }}">{{ $fertilizer->Name }}</option>
-                        @endforeach
-                    </select>
-                </label>
-            </div>
+                <label for="FertilizerID" class="form-label">{{ __('wtr.fert') }}</label>
+				<select class="form-control" name="FertilizerID" id="FertilizerID">
+					<option value="">—</option>
+					@foreach($fertilizers as $fertilizer)
+						<option value="{{ $fertilizer->ID }}">{{ $fertilizer->Name }}</option>
+					@endforeach
+				</select>
+			</div>
             <div class="row mb-3">
-                <label for="FertilizerDoze">{{ __('wtr.doze') }}
-                    <input type="text" class="form-control" name="FertilizerDoze">
-                </label>
-            </div>
+                <label for="FertilizerDoze" class="form-label">{{ __('wtr.doze') }} </label>
+				<input type="text" class="form-control" name="FertilizerDoze" id="FertilizerDoze" placeholder="{{ __('wtr.doze') }}">
+			</div>
             <div class="row mb-3">
-                <label for="GroupID">{{ __('wtr.wg') }}
-                    <select class="form-control" name="GroupID">
-                        <option value="">{{ __('wtr.all_p') }}</option>
-                        @foreach($groups as $group)
-                            <option value="{{ $group->ID }}">{{ $group->Name }}</option>
-                        @endforeach
-                    </select>
-                </label>
-            </div>
+                <label for="GroupID" class="form-label">{{ __('wtr.wg') }}</label>
+				<select class="form-control" name="GroupID" id="GroupID">
+					<option value="">{{ __('wtr.all_p') }}</option>
+					@foreach($groups as $group)
+						<option value="{{ $group->ID }}">{{ $group->Name }}</option>
+					@endforeach
+				</select>
+
+			</div>
             @include('parts.submit')
         </form>
     </div>

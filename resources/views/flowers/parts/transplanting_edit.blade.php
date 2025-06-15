@@ -20,7 +20,7 @@
 
 
 	<form action="{{ route('flowers.transplantings.destroy', ['id' => $transplanting->ID]) }}"
-		  class="btn delete-btn justify-content-end"
+		  class="btn delete-btn justify-content-end mt-4"
 		  style="padding: 0.25rem 0.35rem;"
 		  method="post"
 		  onsubmit="return confirm('{{ __('tp.del_d_f', ['name' => $transplanting->DOT]) }}');">

@@ -83,6 +83,7 @@
                                 <th>#</th>
                                 <th>Название</th>
                                 <th>Описание</th>
+                                <th>Расположение</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -91,6 +92,12 @@
                                     <td style="padding: 1rem">{{ $loop->iteration }} </td>
                                     <td style="padding: 1rem">{{ $flower->Name }}</td>
                                     <td style="padding: 1rem">{{ $flower->Notes }}</td>
+                                    <td style="padding: 1rem">
+                                        {{ DB::table('flower_placement_links')
+                                            ->join('placements', 'flower_placement_links.PlacementID', '=', 'placements.ID')
+                                            ->where('flower_placement_links.FlowerID', '=', $flower->ID)
+                                            ->value('placements.Name') ?? '—' }}
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
