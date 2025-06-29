@@ -119,7 +119,7 @@
                     if (value === 'all') show = true;
                     else if (value === 'blooming') show = isBlooming;
                     else if (value === 'sick') show = isSick;
-                    else if (value === 'by-date') show = wateringDates.includes(selectedDate);
+                    else if (value === 'by-date') show = !wateringDates.includes(selectedDate);
 
                     box.style.display = show ? '' : 'none';
                 });
