@@ -55,11 +55,16 @@
             <p class="row text-center justify-content-center fs-5">{{ __('wtr.sel_d') }}</p>
             <div class="mb-5">
                 <div class="row mb-3">
+                    <label for="watering-date-filter" class="form-label">Дата полива:</label>
+                    <input type="date" id="watering-date-filter" class="form-control" value="{{ $watering->WateringDate }}">
+                </div>
+                <div class="row mb-3">
                     <label for="flower-filter" class="form-label">Фильтр цветов:</label>
                     <select id="flower-filter" class="form-select">
                         <option value="all">{{ __('wtr.f_all') }}</option>
                         <option value="blooming">{{ __('wtr.f_blooming') }}</option>
                         <option value="sick">{{ __('wtr.f_disease') }}</option>
+                        <option value="by-date">С поливом на дату</option>
                     </select>
                 </div>
                 <div class="mb-5 mt-5 d-flex justify-content-around">
@@ -70,7 +75,8 @@
                     @foreach($allFlowers as $flower)
                         <div class="col flower-box"
                              data-blooming="{{ $flower->isBlooming ? '1' : '0' }}"
-                             data-sick="{{ $flower->isSick ? '1' : '0' }}">
+                             data-sick="{{ $flower->isSick ? '1' : '0' }}"
+                             data-watering-dates="{{ implode(',', $flower->wateringDates ?? []) }}">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="flowers[]" value="{{ $flower->ID }}"
                                     {{ in_array($flower->ID, $selectedFlowerIds) ? 'checked' : '' }} id="flower-{{ $flower->ID }}">
@@ -98,22 +104,35 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const filter = document.getElementById('flower-filter');
+            const dateInput = document.getElementById('watering-date-filter');
             const flowerBoxes = document.querySelectorAll('.flower-box');
 
-            filter.addEventListener('change', function () {
-                const value = this.value;
-
+            function updateVisibility() {
+                const value = filter.value;
+                const selectedDate = dateInput.value;
                 flowerBoxes.forEach(box => {
                     const isBlooming = box.dataset.blooming === '1';
                     const isSick = box.dataset.sick === '1';
+                    const wateringDates = (box.dataset.wateringDates || '').split(',');
 
                     let show = false;
                     if (value === 'all') show = true;
                     else if (value === 'blooming') show = isBlooming;
                     else if (value === 'sick') show = isSick;
+                    else if (value === 'by-date') show = wateringDates.includes(selectedDate);
 
                     box.style.display = show ? '' : 'none';
                 });
+            }
+
+            filter.addEventListener('change', function () {
+                updateVisibility();
+            });
+
+            dateInput.addEventListener('input', function () {
+                if (filter.value === 'by-date') {
+                    updateVisibility();
+                }
             });
 
             document.getElementById('select-all').addEventListener('click', function () {

@@ -6,7 +6,7 @@
             @csrf
             <div class="row mb-3">
                 <label for="WateringDate" class="form-label">{{ __('wtr.wd') }}</label>
-				<input type="date" class="form-control" name="WateringDate" id="WateringDate" required>
+				<input type="date" class="form-control" name="WateringDate" id="WateringDate" value="{{ today()->toDateString() }}" required>
             </div>
             <div class="row mb-3">
                 <label for="TypeID" class="form-label">{{ __('wtr.name_d') }}</label>

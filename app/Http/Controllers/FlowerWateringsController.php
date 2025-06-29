@@ -114,6 +114,13 @@ class FlowerWateringsController extends Controller
             $flower->isSick = DB::table('flower_disease_links')
                 ->where('FlowerID', $flower->ID)
                 ->exists();
+
+            $flower->wateringDates = DB::table('flower_watering_links')
+                ->join('flower_waterings', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
+                ->where('flower_watering_links.FlowerID', $flower->ID)
+                ->pluck('flower_waterings.WateringDate')
+                ->map(fn($d) => \Carbon\Carbon::parse($d)->format('Y-m-d'))
+                ->toArray();
         }
 
         $selectedFlowerIds = DB::table('flower_watering_links')
