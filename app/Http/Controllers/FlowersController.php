@@ -84,24 +84,42 @@ class FlowersController extends Controller
      */
     public function watering_index()
     {
-        $waterings = DB::table('flower_waterings')
-			->select(
-				'flower_waterings.*',
-				'watering_types_of.WateringName',
-				'watering_types_of.TypeOfImg',
-				'fertilizers.Name as FertilizerName',
-				'watering_groups.Name as GroupName',
-				DB::raw('COUNT(flower_watering_links.FlowerID) as FlowerCount')
-			)
-			->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
-			->leftJoin('fertilizers', 'flower_waterings.FertilizerID', '=', 'fertilizers.ID')
-			->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
-			->leftJoin('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
-			->groupBy('flower_waterings.ID') // + все поля из SELECT если режим включён
-			->orderByDesc('WateringDate')
-			->orderByDesc('updated_at')
-			->get();
 
+        $waterings = DB::table('flower_waterings')
+            ->select(
+                'flower_waterings.ID',
+                'flower_waterings.TypeID',
+                'flower_waterings.FertilizerID',
+                'flower_waterings.FertilizerDoze',
+                'flower_waterings.GroupID',
+                'flower_waterings.WateringDate',
+                'flower_waterings.updated_at',
+                'watering_types_of.WateringName',
+                'watering_types_of.TypeOfImg',
+                'fertilizers.Name as FertilizerName',
+                'watering_groups.Name as GroupName',
+                DB::raw('COUNT(flower_watering_links.FlowerID) as FlowerCount')
+            )
+            ->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
+            ->leftJoin('fertilizers', 'flower_waterings.FertilizerID', '=', 'fertilizers.ID')
+            ->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
+            ->leftJoin('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
+            ->groupBy(
+                'flower_waterings.ID',
+                'flower_waterings.TypeID',
+                'flower_waterings.FertilizerID',
+                'flower_waterings.FertilizerDoze',
+                'flower_waterings.GroupID',
+                'flower_waterings.WateringDate',
+                'flower_waterings.updated_at',
+                'watering_types_of.WateringName',
+                'watering_types_of.TypeOfImg',
+                'fertilizers.Name',
+                'watering_groups.Name'
+            )
+            ->orderByDesc('WateringDate')
+            ->orderByDesc('updated_at')
+            ->get();
         return view('watering_index', compact('waterings'));
     }
     /**
