@@ -84,23 +84,30 @@ class FlowersController extends Controller
      */
     public function watering_index()
     {
-        $waterings = DB::table('flower_waterings')
-            ->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
-            ->leftJoin('fertilizers', 'flower_waterings.FertilizerID', '=', 'fertilizers.ID')
-            ->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
-            ->leftJoin('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
-            ->select(
-                'flower_waterings.*',
-                'watering_types_of.WateringName',
-                'watering_types_of.TypeOfImg',
-                'fertilizers.Name as FertilizerName',
-                'watering_groups.Name as GroupName',
-                DB::raw('COUNT(flower_watering_links.FlowerID) as FlowerCount')
-            )
-            ->groupBy('flower_waterings.ID')
-            ->orderByDesc('WateringDate')
-            ->orderByDesc('updated_at')
-            ->get();
+		$waterings = DB::table('flower_waterings')
+			->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
+			->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
+			->leftJoin('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
+			->leftJoin(DB::raw("
+        JSON_TABLE(flower_waterings.FertilizerID, '$[*]'
+            COLUMNS(fertilizer_id INT PATH '$')
+        ) AS ferts
+    "), function($join) {
+				$join->on(DB::raw('1'), '=', DB::raw('1')); // dummy join, чтобы JSON_TABLE работал
+			})
+			->leftJoin('fertilizers', 'ferts.fertilizer_id', '=', 'fertilizers.ID')
+			->select(
+				'flower_waterings.*',
+				'watering_types_of.WateringName',
+				'watering_types_of.TypeOfImg',
+				DB::raw("GROUP_CONCAT(DISTINCT fertilizers.Name SEPARATOR '\n') as FertilizerName"),
+				'watering_groups.Name as GroupName',
+				DB::raw('COUNT(DISTINCT flower_watering_links.FlowerID) as FlowerCount')
+			)
+			->groupBy('flower_waterings.ID')
+			->orderByDesc('WateringDate')
+			->orderByDesc('flower_waterings.updated_at')
+			->get();
 
         return view('watering_index', compact('waterings'));
     }

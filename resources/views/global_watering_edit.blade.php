@@ -24,10 +24,9 @@
 
             <div class="row mb-3">
                 <label for="FertilizerID" class="form-label">{{ __('wtr.fert') }}</label>
-				<select class="form-control form-select" name="FertilizerID" id="FertilizerID">
-					<option value="">—</option>
+				<select multiple class="form-control form-select js-preserve-order" name="FertilizerID[]" id="FertilizerID">
 					@foreach($fertilizers as $fertilizer)
-						<option value="{{ $fertilizer->ID }}" {{ $fertilizer->ID == $watering->FertilizerID ? 'selected' : '' }}>
+						<option value="{{ $fertilizer->ID }}" {{ in_array($fertilizer->ID, old('FertilizerID', json_decode($watering->FertilizerID ?? '[]'))) ? 'selected' : '' }}>
 							{{ $fertilizer->Name }}
 						</option>
 					@endforeach
@@ -67,6 +66,15 @@
                         <option value="by-date">С поливом на дату</option>
                     </select>
                 </div>
+				<div class="row mb-3">
+					<label for="placement-select" class="form-label">Выбрать место размещения:</label>
+					<select id="placement-select" class="form-select">
+						<option value="all">Все места</option>
+						@foreach($placements as $placement)
+							<option value="{{ $placement->Name }}">{{ $placement->Name }}</option>
+						@endforeach
+					</select>
+				</div>
                 <div class="mb-5 mt-5 d-flex justify-content-around">
                     <button type="button" class="btn btn-outline-primary btn-sm me-2" id="select-all">Выбрать все</button>
                     <button type="button" class="btn btn-outline-secondary btn-sm" id="deselect-all">Снять выбор</button>
@@ -76,6 +84,7 @@
                         <div class="col flower-box"
                              data-blooming="{{ $flower->isBlooming ? '1' : '0' }}"
                              data-sick="{{ $flower->isSick ? '1' : '0' }}"
+							 data-placement="{{ $flowerPlacements[$flower->ID] ?? '' }}"
                              data-watering-dates="{{ implode(',', $flower->wateringDates ?? []) }}">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="flowers[]" value="{{ $flower->ID }}"
@@ -105,24 +114,33 @@
         document.addEventListener('DOMContentLoaded', function () {
             const filter = document.getElementById('flower-filter');
             const dateInput = document.getElementById('watering-date-filter');
+			const placementSelect = document.getElementById('placement-select');
             const flowerBoxes = document.querySelectorAll('.flower-box');
-
             function updateVisibility() {
                 const value = filter.value;
                 const selectedDate = dateInput.value;
-                flowerBoxes.forEach(box => {
-                    const isBlooming = box.dataset.blooming === '1';
-                    const isSick = box.dataset.sick === '1';
-                    const wateringDates = (box.dataset.wateringDates || '').split(',');
+				const selectedPlacement = placementSelect.value;
 
-                    let show = false;
-                    if (value === 'all') show = true;
-                    else if (value === 'blooming') show = isBlooming;
-                    else if (value === 'sick') show = isSick;
-                    else if (value === 'by-date') show = !wateringDates.includes(selectedDate);
+				flowerBoxes.forEach(box => {
+					const isBlooming = box.dataset.blooming === '1';
+					const isSick = box.dataset.sick === '1';
+					const flowerPlacement = box.dataset.placement;
+					const wateringDates = (box.dataset.wateringDates || '').split(',');
 
-                    box.style.display = show ? '' : 'none';
-                });
+					let show = false;
+
+					if (value === 'all') show = true;
+					else if (value === 'blooming') show = isBlooming;
+					else if (value === 'sick') show = isSick;
+					else if (value === 'placement') show = true; // показываем все, фильтрация только по placement-select
+					else if (value === 'by-date') show = !wateringDates.includes(selectedDate);
+
+					if (selectedPlacement !== 'all' && flowerPlacement !== selectedPlacement) {
+						show = false;
+					}
+
+					box.style.display = show ? '' : 'none';
+				});
             }
 
             filter.addEventListener('change', function () {
@@ -135,7 +153,9 @@
                 }
             });
 
-            document.getElementById('select-all').addEventListener('click', function () {
+			placementSelect.addEventListener('change', updateVisibility);
+
+				document.getElementById('select-all').addEventListener('click', function () {
                 document.querySelectorAll('.flower-box').forEach(box => {
                     if (box.style.display !== 'none') {
                         const checkbox = box.querySelector('.form-check-input');

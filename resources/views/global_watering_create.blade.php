@@ -18,10 +18,11 @@
             </div>
             <div class="row mb-3">
                 <label for="FertilizerID" class="form-label">{{ __('wtr.fert') }}</label>
-				<select class="form-control" name="FertilizerID" id="FertilizerID">
-					<option value="">—</option>
+				<select class="form-control js-preserve-order" name="FertilizerID[]" id="FertilizerID" multiple>
 					@foreach($fertilizers as $fertilizer)
-						<option value="{{ $fertilizer->ID }}">{{ $fertilizer->Name }}</option>
+						<option value="{{ $fertilizer->ID }}" {{ in_array($fertilizer->ID, old('FertilizerID', json_decode($watering->FertilizerID ?? '[]'))) ? 'selected' : '' }}>
+							{{ $fertilizer->Name }}
+						</option>
 					@endforeach
 				</select>
 			</div>

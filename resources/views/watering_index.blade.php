@@ -24,7 +24,22 @@
                     <tr onclick="window.location='{{ route('global_watering.show', ['id' => $watering->ID]) }}'" style="cursor: pointer;">
                         <td>{{ \Carbon\Carbon::parse($watering->WateringDate)->format('d.m.Y') }}</td>
                         <td>{{ $watering->TypeOfImg ?? '—' }}</td>
-                        <td>{{ $watering->FertilizerName ? ($watering->FertilizerName . ' - ' . $watering->FertilizerDoze) : '—' }}</td>
+						<td>
+							@if($watering->FertilizerName)
+								{!! nl2br(e(
+									collect(explode("\n", $watering->FertilizerName))
+										->map(fn($name) => trim($name))
+										->implode("\n")
+								)) !!}
+								@if($watering->FertilizerDoze)
+									<div class="text-muted small mt-1">
+										Дозировка: {{ $watering->FertilizerDoze }}
+									</div>
+								@endif
+							@else
+								—
+							@endif
+						</td>
                         <td>{{ $watering->GroupName ?? __('wtr.all_p') }}</td>
                         <td>{{ $watering->FlowerCount }}</td>
                     </tr>

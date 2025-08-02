@@ -36,7 +36,8 @@ class FlowerWateringsController extends Controller
         $request->validate([
             'WateringDate' => 'required|date',
             'TypeID' => 'required|integer|exists:watering_types_of,ID',
-            'FertilizerID' => 'nullable|integer|exists:fertilizers,ID',
+			'FertilizerID' => 'nullable|array',
+			'FertilizerID.*' => 'integer|exists:fertilizers,ID',
             'FertilizerDoze' => 'nullable|string',
             'GroupID' => 'nullable|integer|exists:watering_groups,ID',
         ]);
@@ -44,7 +45,7 @@ class FlowerWateringsController extends Controller
         $watering = new Flower_Waterings();
         $watering->TypeID = $request->input('TypeID');
         $watering->WateringDate = $request->input('WateringDate');
-        $watering->FertilizerID = $request->input('FertilizerID');
+		$watering->FertilizerID = json_encode($request->input('FertilizerID', []));
         $watering->FertilizerDoze = $request->input('FertilizerDoze');
         $watering->GroupID = $request->input('GroupID');
         $watering->save();
@@ -71,21 +72,49 @@ class FlowerWateringsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-        $waterings = DB::table('flower_waterings')
-            ->where('ID', '=', $id)
-            ->get();
-        $flowers = DB::table('flowers')
-            ->select('flowers.ID', 'flowers.Name')
-            ->join('flower_watering_links', 'flowers.ID', '=', 'flower_watering_links.FlowerID')
-            ->where('flower_watering_links.WateringID', '=', $id)
-            ->groupBy('flowers.ID', 'flowers.Name')
-            ->get();
-        return view('global_watering_show', compact(
-            'flowers',
-        'waterings'));
-    }
+	public function show($id)
+	{
+		// Забираем сам полив
+		$watering = DB::table('flower_waterings')
+			->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
+			->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
+			->where('flower_waterings.ID', '=', $id)
+			->select(
+				'flower_waterings.*',
+				'watering_types_of.WateringName',
+				'watering_types_of.TypeOfImg',
+				'watering_groups.Name as GroupName'
+			)
+			->first();
+
+		if (!$watering) {
+			abort(404);
+		}
+
+		// Загружаем связанные цветы
+		$flowers = DB::table('flowers')
+			->select('flowers.ID', 'flowers.Name')
+			->join('flower_watering_links', 'flowers.ID', '=', 'flower_watering_links.FlowerID')
+			->where('flower_watering_links.WateringID', '=', $id)
+			->groupBy('flowers.ID', 'flowers.Name')
+			->get();
+
+		// Загружаем все удобрения
+		$fertilizers = DB::table('fertilizers')->pluck('Name', 'ID');
+
+		// Преобразуем JSON-удобрения в названия
+		$fertilizerIDs = json_decode($watering->FertilizerID ?? '[]', true);
+		$fertilizerNames = collect($fertilizerIDs)
+			->map(fn($id) => $fertilizers[$id] ?? null)
+			->filter()
+			->values();
+
+		return view('global_watering_show', [
+			'watering' => $watering,
+			'flowers' => $flowers,
+			'fertilizerNames' => $fertilizerNames,
+		]);
+	}
 
     /**
      * Show the form for editing the specified resource.
@@ -94,8 +123,20 @@ class FlowerWateringsController extends Controller
     {
         $watering = DB::table('flower_waterings')->where('ID', $id)->first();
         $types = DB::table('watering_types_of')->get();
-        $fertilizers = DB::table('fertilizers')->get();
         $groups = DB::table('watering_groups')->get();
+		$placements = DB::table('placements')->orderBy('Name')->get();
+
+		$flowerPlacements = DB::table('flower_placement_links')
+			->join('placements', 'flower_placement_links.PlacementID', '=', 'placements.ID')
+			->pluck('placements.Name', 'flower_placement_links.FlowerID')
+			->toArray();
+
+		$selectedFertIDs = json_decode($watering->FertilizerID ?? '[]', true);
+
+		// Сортируем удобрения по порядку из выбранных ID
+		$fertilizers = DB::table('fertilizers')
+			->orderByRaw('FIELD(ID, ' . implode(',', $selectedFertIDs) . ')')
+			->get();
 
         //$allFlowers = DB::table('flowers')->orderBy('Name')->get();
         $query = DB::table('flowers')->orderBy('Name');
@@ -129,7 +170,7 @@ class FlowerWateringsController extends Controller
             ->toArray();
 
         return view('global_watering_edit', compact(
-            'watering', 'types', 'fertilizers', 'groups', 'allFlowers', 'selectedFlowerIds'
+            'watering', 'types', 'fertilizers', 'groups', 'allFlowers', 'selectedFlowerIds', 'placements', 'flowerPlacements'
         ));
     }
 
@@ -141,7 +182,8 @@ class FlowerWateringsController extends Controller
         $request->validate([
             'WateringDate' => 'required|date',
             'TypeID' => 'required|integer|exists:watering_types_of,ID',
-            'FertilizerID' => 'nullable|integer|exists:fertilizers,ID',
+            'FertilizerID' => 'nullable|array',
+            'FertilizerID.*' => 'integer|exists:fertilizers,ID',
             'FertilizerDoze' => 'nullable|string',
             'flowers' => 'nullable|array',
             'flowers.*' => 'integer|exists:flowers,ID'
@@ -150,7 +192,7 @@ class FlowerWateringsController extends Controller
         DB::table('flower_waterings')->where('ID', $id)->update([
             'WateringDate' => $request->input('WateringDate'),
             'TypeID' => $request->input('TypeID'),
-            'FertilizerID' => $request->input('FertilizerID'),
+            'FertilizerID' => json_encode($request->input('FertilizerID', [])),
             'FertilizerDoze' => $request->input('FertilizerDoze'),
             'updated_at' => now()
         ]);
