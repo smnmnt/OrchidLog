@@ -131,12 +131,22 @@ class FlowerWateringsController extends Controller
 			->pluck('placements.Name', 'flower_placement_links.FlowerID')
 			->toArray();
 
-		$selectedFertIDs = json_decode($watering->FertilizerID ?? '[]', true);
+		$rawFertIDs = json_decode($watering->FertilizerID ?? '[]', true);
 
-		// Сортируем удобрения по порядку из выбранных ID
-		$fertilizers = DB::table('fertilizers')
-			->orderByRaw('FIELD(ID, ' . implode(',', $selectedFertIDs) . ')')
-			->get();
+// Защита от одного числа или null
+		$selectedFertIDs = is_array($rawFertIDs) ? $rawFertIDs : [$rawFertIDs];
+
+// Если есть выбранные удобрения — сортируем по порядку
+		if (!empty($selectedFertIDs) && is_array($selectedFertIDs)) {
+			$fertilizers = DB::table('fertilizers')
+				->orderByRaw('FIELD(ID, ' . implode(',', $selectedFertIDs) . ')')
+				->get();
+		} else {
+			// Иначе просто по алфавиту
+			$fertilizers = DB::table('fertilizers')
+				->orderBy('Name')
+				->get();
+		}
 
         //$allFlowers = DB::table('flowers')->orderBy('Name')->get();
         $query = DB::table('flowers')->orderBy('Name');

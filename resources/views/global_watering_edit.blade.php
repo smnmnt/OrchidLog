@@ -26,7 +26,7 @@
                 <label for="FertilizerID" class="form-label">{{ __('wtr.fert') }}</label>
 				<select multiple class="form-control form-select js-preserve-order" name="FertilizerID[]" id="FertilizerID">
 					@foreach($fertilizers as $fertilizer)
-						<option value="{{ $fertilizer->ID }}" {{ in_array($fertilizer->ID, old('FertilizerID', json_decode($watering->FertilizerID ?? '[]'))) ? 'selected' : '' }}>
+						<option value="{{ $fertilizer->ID }}" {{ in_array($fertilizer->ID, (array) old('FertilizerID', json_decode($watering->FertilizerID ?? '[]'))) ? 'selected' : '' }}>
 							{{ $fertilizer->Name }}
 						</option>
 					@endforeach
