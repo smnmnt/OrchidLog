@@ -989,9 +989,6 @@ class FlowersController extends Controller
             $watering_l = DB::table('flower_watering_links')
                 ->where('ID', '=', $watering_link->ID)
                 ->delete();
-            $watering = DB::table('flower_waterings')
-                ->where('ID', '=', $watering_link->WateringID)
-                ->delete();
         }
 
         $disease = DB::table('flower_disease_links')
