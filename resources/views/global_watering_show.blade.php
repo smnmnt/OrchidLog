@@ -17,7 +17,7 @@
 			</ul>
 
 			@if($watering->FertilizerDoze)
-				<p class="mt-2"><strong>Дозировка:</strong> {{ $watering->FertilizerDoze }}</p>
+				<p class="mt-2"><strong>Примечание:</strong> {{ $watering->FertilizerDoze }}</p>
 			@endif
 		</div>
 

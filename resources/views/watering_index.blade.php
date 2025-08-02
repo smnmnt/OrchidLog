@@ -33,7 +33,7 @@
 								)) !!}
 								@if($watering->FertilizerDoze)
 									<div class="text-muted small mt-1">
-										Дозировка: {{ $watering->FertilizerDoze }}
+										{{ $watering->FertilizerDoze }}
 									</div>
 								@endif
 							@else

@@ -34,7 +34,7 @@
 			</div>
 
             <div class="row mb-3">
-                <label for="FertilizerDoze" class="form-label">{{ __('wtr.doze') }}</label>
+                <label for="FertilizerDoze" class="form-label">Примечание</label>
 				<input type="text" class="form-control" name="FertilizerDoze" id="FertilizerDoze" value="{{ $watering->FertilizerDoze }}">
 			</div>
 
