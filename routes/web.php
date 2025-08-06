@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [\App\Http\Controllers\FlowersController::class, 'main'])->name('flowers.main');
 
 Route::get('/flowers/search', [\App\Http\Controllers\FlowersController::class, 'search'])->name('flowers.search');
+Route::get('/flowers/all/search', [\App\Http\Controllers\FlowersController::class, 'search'])->name('flowers.all.search');
+Route::get('/flowers/archived/search', [\App\Http\Controllers\FlowersController::class, 'search'])->name('flowers.archived.search');
 
 Route::get('/watering', [\App\Http\Controllers\FlowersController::class, 'watering_index'])->name('watering.index');
 Route::get('/global-watering/create', [\App\Http\Controllers\FlowerWateringsController::class, 'create'])->name('global_watering.create');
@@ -19,13 +21,20 @@ Route::delete('/global_watering_link/{WateringId}_{id}', [\App\Http\Controllers\
 Route::get('/lists/index', [\App\Http\Controllers\FlowersController::class, 'list'])->name('lists.index');
 Route::get('/lists/adding', [\App\Http\Controllers\FlowersController::class, 'adding'])->name('lists.adding');
 
-Route::get('flowers/index', [\App\Http\Controllers\FlowersController::class, 'index'])->name('flowers.index');
+// Обычные растения (без удалённых)
+Route::get('/flowers', [\App\Http\Controllers\FlowersController::class, 'index'])->name('flowers.index');
+// Только удалённые растения
+Route::get('/flowers/archived', [\App\Http\Controllers\FlowersController::class, 'index'])->name('flowers.archived');
+// Все растения (включая удалённые)
+Route::get('/flowers/all', [\App\Http\Controllers\FlowersController::class, 'index'])->name('flowers.all');
 Route::get('/flowers/create', [\App\Http\Controllers\FlowersController::class, 'create'])->name('flowers.create');
 Route::get('/flowers/edit/{id}', [\App\Http\Controllers\FlowersController::class, 'edit'])->name('flowers.edit');
 Route::get('/flowers/show/{id}', [\App\Http\Controllers\FlowersController::class, 'show'])->name('flowers.show');
 Route::post('/flowers/store', [\App\Http\Controllers\FlowersController::class, 'store'])->name('flowers.store');
 Route::patch('/flowers/show/{id}', [\App\Http\Controllers\FlowersController::class, 'update'])->name('flowers.update');
-Route::delete('/flowers/{id}', [\App\Http\Controllers\FlowersController::class, 'destroy'])->name('flowers.destroy');
+//Route::delete('/flowers/{id}', [\App\Http\Controllers\FlowersController::class, 'destroy'])->name('flowers.destroy');
+Route::patch('/flowers/{id}/archive', [\App\Http\Controllers\FlowersController::class, 'archive'])->name('flowers.archive');
+Route::patch('/flowers/{id}/unarchive', [\App\Http\Controllers\FlowersController::class, 'unarchive'])->name('flowers.unarchive');
 
 Route::get('/flowers/create/bloom/{id}', [\App\Http\Controllers\FlowersController::class, 'create_blooms'])->name('flowers.blooms.create');
 Route::get('/flowers/edit/bloom/{id}', [\App\Http\Controllers\FlowersController::class, 'edit_blooms'])->name('flowers.blooms.edit');

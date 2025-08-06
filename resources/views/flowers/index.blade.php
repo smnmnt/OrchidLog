@@ -1,24 +1,70 @@
 @include('parts.nameLimiter')
 
-@extends('layouts.layout', ['title' =>  __('flower.ds')])
+@extends('layouts.layout')
 
 @section('content')
-    <div class="container">
-        <p class="mb-1">Поиск растений</p>
-        <form method="GET" action="{{ route('flowers.search') }}" class="mb-4">
-            <div class="input-group mb-3">
-                <input type="text" name="query" class="form-control" placeholder="Введите название или описание цветка..." value="{{ request('query') }}">
-                <button class="btn btn-primary" type="submit">Поиск</button>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="view" id="listView" value="list" {{ request('view', 'cards') === 'list' ? 'checked' : '' }}>
-                <label class="form-check-label" for="listView">Список</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="view" id="cardView" value="cards" {{ request('view', 'cards') === 'cards' ? 'checked' : '' }}>
-                <label class="form-check-label" for="cardView">Карточки</label>
-            </div>
-        </form>
+    <div class="container"><p class="mb-1">Поиск растений</p>
+		<form method="GET"
+			  action="{{
+    			match(request()->segment(2)) {
+        		'all' => route('flowers.all.search'),
+        		'archived' => route('flowers.archived.search'),
+        		default => route('flowers.search')
+    }
+}}"
+			  class="mb-4">
+
+			<!-- Поле поиска -->
+			<div class="input-group mb-3">
+				<input type="text"
+					   name="query"
+					   class="form-control"
+					   placeholder="Введите название или описание цветка..."
+					   value="{{ request('query') }}">
+				<button class="btn btn-primary" type="submit">Поиск</button>
+			</div>
+
+			<!-- Скрытые поля для сохранения сортировки -->
+			@if(request('sort'))
+				<input type="hidden" name="sort" value="{{ request('sort') }}">
+			@endif
+
+			<!-- Переключатель вида -->
+			<div class="form-check form-check-inline">
+				<input class="form-check-input"
+					   type="radio"
+					   name="view"
+					   id="listView"
+					   value="list"
+					{{ request('view', 'cards') === 'list' ? 'checked' : '' }}>
+				<label class="form-check-label" for="listView">Список</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input"
+					   type="radio"
+					   name="view"
+					   id="cardView"
+					   value="cards"
+					{{ request('view', 'cards') === 'cards' ? 'checked' : '' }}>
+				<label class="form-check-label" for="cardView">Карточки</label>
+			</div>
+
+			<!-- Кнопки переключения режима (опционально) -->
+			<div class="mt-2">
+				<a href="{{ route('flowers.index') }}"
+				   class="btn {{ request()->segment(2) === null ? 'btn-primary' : 'btn-outline-primary' }}">
+					Активные
+				</a>
+				<a href="{{ route('flowers.all') }}"
+				   class="btn {{ request()->segment(2) === 'all' ? 'btn-primary' : 'btn-outline-primary' }}">
+					Все
+				</a>
+				<a href="{{ route('flowers.archived') }}"
+				   class="btn {{ request()->segment(2) === 'archived' ? 'btn-primary' : 'btn-outline-primary' }}">
+					Архивные
+				</a>
+			</div>
+		</form>
 
         <div class="mb-3">
             <label for="sort" class="form-label">Сортировка</label>

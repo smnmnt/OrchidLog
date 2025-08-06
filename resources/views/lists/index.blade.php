@@ -62,6 +62,12 @@
                     <span class="badge bg-primary rounded-pill">{{sizeof($wg)}}</span>
                 </li>
             @endisset
+			@isset($flowers)
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					<a href="{{ route('flowers.archived') }}" class="adding-list-link">Удаленные растения</a>
+					<span class="badge bg-primary rounded-pill">{{$archivedCount}}</span>
+				</li>
+			@endisset
 
     </ul>
 @endsection

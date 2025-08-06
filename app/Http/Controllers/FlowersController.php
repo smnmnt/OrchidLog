@@ -48,37 +48,60 @@ class FlowersController extends Controller
         return view('main', compact('flower'));
     }
 
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-        $flowers = DB::table('flowers')
-            ->where('Name', 'like', "%$query%")
-            ->orWhere('Notes', 'like', "%$query%");
+	public function search(Request $request)
+	{
 
-        // Сортировка
-        switch ($request->input('sort')) {
-            case 'name_asc':
-                $flowers->orderBy('Name', 'asc');
-                break;
-            case 'name_desc':
-                $flowers->orderBy('Name', 'desc');
-                break;
-            case 'created_desc':
-                $flowers->orderBy('created_at', 'desc');
-                break;
-            case 'created_asc':
-                $flowers->orderBy('created_at', 'asc');
-                break;
-            default:
-                break;
-        }
+		$query = $request->input('query');
 
-        $cardFlowers = (clone $flowers)->paginate(30);
-        $flowers = $flowers->get();
+		$title = __('flower.fndds', ['search' => $query]);
 
-        return view('flowers.index', compact('flowers', 'cardFlowers'));
-    }
+		$routeName = $request->route()->getName();
+		// Базовый запрос
+		$flowers = DB::table('flowers')
+			->where(function($q) use ($query) {
+				$q->where('Name', 'like', "%$query%")
+					->orWhere('Notes', 'like', "%$query%");
+			});
 
+		// Определяем режим фильтрации по имени маршрута
+		switch ($routeName) {
+			case 'flowers.archived.search':
+				$flowers->where('archived', true);
+				break;
+			case 'flowers.all.search':
+				// Без фильтрации (все записи)
+				break;
+			default: // flowers.search
+				$flowers->where('archived', false);
+				break;
+		}
+
+		// Сортировка (оставляем как было)
+		switch ($request->input('sort')) {
+			case 'name_desc':
+				$flowers->orderBy('Name', 'desc');
+				break;
+			case 'created_desc':
+				$flowers->orderBy('created_at', 'desc');
+				break;
+			case 'created_asc':
+				$flowers->orderBy('created_at', 'asc');
+				break;
+			default:
+				$flowers->orderBy('Name', 'asc');
+				break;
+		}
+
+		$cardFlowers = (clone $flowers)->paginate(30)
+			->appends($request->query());
+
+		return view('flowers.index', [
+			'flowers' => $flowers->get(),
+			'cardFlowers' => $cardFlowers,
+			'currentMode' => str_replace('flowers.', '', explode('.', $routeName)[0]), // Для подсветки в UI,
+			'title' => $title,
+		]);
+	}
     /**
      * Display a listing of the resource.
      */
@@ -116,10 +139,32 @@ class FlowersController extends Controller
      */
 	public function index(Request $request)
 	{
+		$title = __('flower.ds');
 		$query = $request->input('query');
+
+		// Определяем, какой маршрут вызван
+		$routeName = $request->route()->getName();
+
+		// Создаём базовый запрос
 		$flowers = DB::table('flowers');
 
-		// Если введён текст — фильтруем
+		// Фильтрация по удалённым в зависимости от маршрута
+		switch ($routeName) {
+			case 'flowers.archived':
+				$title = __('flower.dds');
+				$flowers->where('flowers.archived', true); // Только удалённые
+				break;
+			case 'flowers.all':
+				$title = __('flower.allds');
+				// Все записи (включая удалённые) — ничего не добавляем
+				break;
+			default:
+				$title = __('flower.ds');
+				$flowers->where('flowers.archived', false);  // Только неудалённые (по умолчанию)
+				break;
+		}
+
+		// Поиск по тексту (как у тебя было)
 		if ($query) {
 			$flowers->where(function ($q) use ($query) {
 				$q->where('flowers.Name', 'like', "%$query%")
@@ -127,7 +172,7 @@ class FlowersController extends Controller
 			});
 		}
 
-		// Применение сортировки
+		// Сортировка (как у тебя было)
 		switch ($request->input('sort')) {
 			case 'name_asc':
 				$flowers->orderBy('flowers.Name', 'asc');
@@ -147,15 +192,13 @@ class FlowersController extends Controller
 					->select('flowers.*', DB::raw('MAX(flower_blooms.updated_at) as LastBloom'))
 					->groupBy('flowers.ID');
 				break;
-			default:
-				// если сортировка не задана
-				break;
 		}
+
 		$cardFlowers = (clone $flowers)->paginate(30);
 		$flowers = $flowers->get();
 
-		return view('flowers.index', compact('flowers', 'cardFlowers'));
-    }
+		return view('flowers.index', compact('flowers', 'cardFlowers', 'title'));
+	}
 
     public function list()
     {
@@ -179,6 +222,7 @@ class FlowersController extends Controller
             ->get();
         $wg = DB::table('watering_groups')
             ->get();
+		$archivedCount = DB::table('flowers')->where('archived', true)->count();
         return view('lists.index',
             compact('fertilizers',
                 'soils',
@@ -189,7 +233,8 @@ class FlowersController extends Controller
                 'top',
                 'tow',
                 'wg',
-                'flowers'
+                'flowers',
+				'archivedCount'
             ));
     }
 
@@ -960,57 +1005,83 @@ class FlowersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+//    public function destroy($id)
+//    {
+//        $flower_imgs = DB::table('flower_images')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//        $blooms = DB::table('flower_blooms')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//
+//        $transplantings = DB::table('flower_transplantings')
+//            ->where('FlowerID', '=', $id)
+//            ->get();
+//        foreach ($transplantings as $transplanting) {
+//
+//                $flower_st_link = DB::table('flower_s_t_links')
+//                    ->where('TPID', '=', $transplanting->ID)
+//                    ->delete();
+//        }
+//        $transplantings = DB::table('flower_transplantings')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//
+//        $watering_links = DB::table('flower_watering_links')
+//            ->where('FlowerID', '=', $id)
+//            ->get();
+//        foreach ($watering_links as $watering_link) {
+//            $watering_l = DB::table('flower_watering_links')
+//                ->where('ID', '=', $watering_link->ID)
+//                ->delete();
+//        }
+//
+//        $disease = DB::table('flower_disease_links')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//        $shop = DB::table('flower_shop_links')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//        $wrs = DB::table('flower_w_r_links')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//        $places = DB::table('flower_placement_links')
+//            ->where('FlowerID', '=', $id)
+//            ->delete();
+//        $flower = DB::table('flowers')
+//            ->where('ID', '=', $id)
+//            ->delete();
+//
+//        return redirect()
+//            ->route('flowers.index')
+//            ->with('warning', "flower.deleted_d");
+//    }
+
+    public function archive($id)
     {
-        $flower_imgs = DB::table('flower_images')
-            ->where('FlowerID', '=', $id)
-            ->delete();
-        $blooms = DB::table('flower_blooms')
-            ->where('FlowerID', '=', $id)
-            ->delete();
+		$flower = Flowers::find($id);
 
-        $transplantings = DB::table('flower_transplantings')
-            ->where('FlowerID', '=', $id)
-            ->get();
-        foreach ($transplantings as $transplanting) {
+		$flower->archived = true;
+		$flower->archived_at = now();
 
-                $flower_st_link = DB::table('flower_s_t_links')
-                    ->where('TPID', '=', $transplanting->ID)
-                    ->delete();
-        }
-        $transplantings = DB::table('flower_transplantings')
-            ->where('FlowerID', '=', $id)
-            ->delete();
-
-        $watering_links = DB::table('flower_watering_links')
-            ->where('FlowerID', '=', $id)
-            ->get();
-        foreach ($watering_links as $watering_link) {
-            $watering_l = DB::table('flower_watering_links')
-                ->where('ID', '=', $watering_link->ID)
-                ->delete();
-        }
-
-        $disease = DB::table('flower_disease_links')
-            ->where('FlowerID', '=', $id)
-            ->delete();
-        $shop = DB::table('flower_shop_links')
-            ->where('FlowerID', '=', $id)
-            ->delete();
-        $wrs = DB::table('flower_w_r_links')
-            ->where('FlowerID', '=', $id)
-            ->delete();
-        $places = DB::table('flower_placement_links')
-            ->where('FlowerID', '=', $id)
-            ->delete();
-        $flower = DB::table('flowers')
-            ->where('ID', '=', $id)
-            ->delete();
+		$flower->update();
 
         return redirect()
             ->route('flowers.index')
-            ->with('warning', "flower.deleted_d");
+            ->with('warning', "flower.arced_d");
     }
+	public function unarchive($id)
+	{
+		$flower = Flowers::find($id);
+
+		$flower->archived = false;
+
+		$flower->update();
+
+		return redirect()
+			->route('flowers.index')
+			->with('success', "flower.unarced_d");
+	}
 
     /**
      * Remove the specified resource from storage.
