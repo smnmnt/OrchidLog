@@ -2,6 +2,10 @@
 
 @section('content')
 
+	@php
+		$englishMonths = trans('months.months', [], 'en');
+		$russianMonths = trans('months.short_months', [], 'ru');
+	@endphp
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>{{ __('wtr.ds')  }}</h2>
@@ -15,14 +19,13 @@
                     <th scope="col">{{ __('wtr.date') }}</th>
                     <th scope="col">{{ __('wtr.type') }}</th>
                     <th scope="col">{{ __('wtr.fert') }}</th>
-                    <th scope="col">{{ __('wtr.group') }}</th>
                     <th scope="col">{{ __('wtr.count') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($waterings as $watering)
                     <tr onclick="window.location='{{ route('global_watering.show', ['id' => $watering->ID]) }}'" style="cursor: pointer;">
-                        <td>{{ \Carbon\Carbon::parse($watering->WateringDate)->format('d.m.Y') }}</td>
+                        <td>{{ str_ireplace($englishMonths, $russianMonths, date('d F Y', strtotime($watering->WateringDate))) }}</td>
                         <td>{{ $watering->TypeOfImg ?? '—' }}</td>
 						<td>
 							@if($watering->FertilizerName)
@@ -40,7 +43,6 @@
 								—
 							@endif
 						</td>
-                        <td>{{ $watering->GroupName ?? __('wtr.all_p') }}</td>
                         <td>{{ $watering->FlowerCount }}</td>
                     </tr>
                 @endforeach

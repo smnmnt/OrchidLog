@@ -17,10 +17,14 @@
                     @php $i++ @endphp
 					<tr onclick="window.location='{{ route('flowers.blooms.edit', ['id' => $bloom->ID]) }}'" style="cursor: pointer; padding: 1rem">
                         <th scope="row"> {{$i}}</th>
-                        <td>{{ str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($bloom->BB))) }}</td>
+						@php
+							$englishMonths = trans('months.months', [], 'en');
+							$russianMonths = trans('months.months', [], 'ru');
+						@endphp
+                        <td>{{ str_ireplace($englishMonths, $russianMonths, date('d F Y', strtotime($bloom->BB))) }}</td>
                         <td>
                             @if($bloom->BE)
-                                {{ str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($bloom->BE))) }}
+                                {{ str_ireplace($englishMonths, $russianMonths, date('d F Y', strtotime($bloom->BE))) }}
                             @else
                                 ----
                             @endif

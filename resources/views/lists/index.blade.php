@@ -56,12 +56,12 @@
                     <span class="badge bg-primary rounded-pill">{{sizeof($tow)}}</span>
                 </li>
             @endisset
-            @isset($wg)
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="{{ route('wg.index') }}" class="adding-list-link">Группа обработки</a>
-                    <span class="badge bg-primary rounded-pill">{{sizeof($wg)}}</span>
-                </li>
-            @endisset
+{{--            @isset($wg)--}}
+{{--                <li class="list-group-item d-flex justify-content-between align-items-center">--}}
+{{--                    <a href="{{ route('wg.index') }}" class="adding-list-link">Группа обработки</a>--}}
+{{--                    <span class="badge bg-primary rounded-pill">{{sizeof($wg)}}</span>--}}
+{{--                </li>--}}
+{{--            @endisset--}}
 			@isset($flowers)
 				<li class="list-group-item d-flex justify-content-between align-items-center">
 					<a href="{{ route('flowers.archived') }}" class="adding-list-link">Удаленные растения</a>

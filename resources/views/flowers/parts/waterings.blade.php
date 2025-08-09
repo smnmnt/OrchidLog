@@ -18,21 +18,47 @@
                     @php $i++ @endphp
                     <tr>
                         <th scope="row"> {{$i}}</th>
-                        <td>
+                        <td  onclick="window.location='{{ route('global_watering.show', ['id' => $watering->ID]) }}'">
                             @foreach($TOW as $TOW_el)
                                 @if($TOW_el->ID == $watering->TypeID)
                                     {{$TOW_el->WateringName}}
                                 @endif
                             @endforeach
                         </td>
-                        <td>
+                        <td  onclick="window.location='{{ route('global_watering.show', ['id' => $watering->ID]) }}'">
+							@php
+								$fertilizerId = json_decode($watering->FertilizerID)[0] ?? null;
+								$fertilizer_elId = null;
+							@endphp
                             @foreach($fertilizers as $fertilizers_el)
-                                @if($fertilizers_el->ID == $watering->FertilizerID)
-                                    {{$fertilizers_el->Name. " - ". $watering->FertilizerDoze}}
-                                @endif
+								@if($fertilizers_el->ID == $fertilizerId)
+									@php
+										$fertilizer_elId = $fertilizers_el->ID;
+										$fertilizer_name = $fertilizers_el->Name;
+
+									@endphp
+								@endif
                             @endforeach
+							@if($fertilizer_elId)
+								{!! nl2br(e(
+									collect(explode("\n", $fertilizer_name))
+										->map(fn($name) => trim($name))
+										->implode("\n")
+								)) !!}
+								@if($watering->FertilizerDoze)
+									<div class="text-muted small mt-1">
+										{{ $watering->FertilizerDoze }}
+									</div>
+								@endif
+							@else
+								---
+							@endif
                         </td>
-                        <td>{{ str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($watering->WateringDate))) }}</td>
+						@php
+							$englishMonths = trans('months.months', [], 'en');
+							$russianMonths = trans('months.short_months', [], 'ru');
+						@endphp
+                        <td  onclick="window.location='{{ route('global_watering.show', ['id' => $watering->ID]) }}'">{{ str_ireplace($englishMonths, $russianMonths, date('d F Y', strtotime($watering->WateringDate))) }}</td>
                         <td>
 
                             <form action="{{ route('global_watering.destroy_link', ['WateringId' => $watering->ID, 'id' => $flowers->first()->ID]) }}"

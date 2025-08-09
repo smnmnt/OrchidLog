@@ -21,11 +21,24 @@ class FlowerWateringsController extends Controller
      */
     public function create()
     {
-        $types = DB::table('watering_types_of')->get();
-        $fertilizers = DB::table('fertilizers')->get();
-        $groups = DB::table('watering_groups')->get();
+		try {
+			// 1. Создаем и сохраняем новую запись
+			$watering = new Flower_Waterings();
+			$watering->WateringDate = now();
+			$watering->save();
 
-        return view('global_watering_create', compact('types', 'fertilizers', 'groups'));
+			// 2. Проверяем, что запись сохранена и имеет ID
+			if (!$watering->ID) {
+				throw new \Exception('Не удалось получить ID созданной записи');
+			}
+
+			// 3. Перенаправляем на редактирование
+			return redirect()->route('global_watering.edit', ['id' => $watering->ID]);
+
+		} catch (\Exception $e) {
+			// 4. Обработка ошибок
+			return back()->with('error', 'Ошибка: ' . $e->getMessage());
+		}
     }
 
     /**
@@ -108,10 +121,14 @@ class FlowerWateringsController extends Controller
 			->map(fn($id) => $fertilizers[$id] ?? null)
 			->filter()
 			->values();
+		$type = DB::table('watering_types_of')
+			->where('ID', '=', $watering->TypeID)
+			->get();
 
 		return view('global_watering_show', [
 			'watering' => $watering,
 			'flowers' => $flowers,
+			'type' => $type,
 			'fertilizerNames' => $fertilizerNames,
 		]);
 	}

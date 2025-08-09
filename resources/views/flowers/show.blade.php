@@ -1,10 +1,6 @@
 @include('parts.nameLimiter')
 
 @extends('layouts.layout', ['title' => __('basic.watching')])
-@php setlocale(LC_ALL, 'ru_RU.UTF-8');
-    $nmeng = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
-    $nmrus = array('Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря');
-@endphp
 @section('content')
 
     @foreach($flowers as $Unit)

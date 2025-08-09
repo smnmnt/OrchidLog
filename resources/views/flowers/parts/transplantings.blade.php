@@ -33,7 +33,11 @@
                         @endforeach
                     </td>
                     <td>{{$transplanting->SOP}}</td>
-                    <td>{{ $transplanting->DOT ? (str_ireplace($nmeng, $nmrus, date('d F Y', strtotime($transplanting->DOT)))) : "Без даты" }}</td>
+					@php
+						$englishMonths = trans('months.months', [], 'en');
+						$russianMonths = trans('months.short_months', [], 'ru');
+					@endphp
+                    <td>{{ $transplanting->DOT ? (str_ireplace($englishMonths, $russianMonths, date('d F Y', strtotime($transplanting->DOT)))) : "Без даты" }}</td>
                 </tr>
             @endforeach
             </tbody>

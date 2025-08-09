@@ -38,17 +38,17 @@
 				<input type="text" class="form-control" name="FertilizerDoze" id="FertilizerDoze" value="{{ $watering->FertilizerDoze }}">
 			</div>
 
-            <div class="row mb-3">
-                <label for="GroupID" class="form-label">{{ __('wtr.wg') }}</label>
-				<select class="form-control form-select" name="GroupID" id="GroupID">
-					<option value="">{{ __('wtr.all_p') }}</option>
-					@foreach($groups as $group)
-						<option value="{{ $group->ID }}" {{ $group->ID == $watering->GroupID ? 'selected' : '' }}>
-							{{ $group->Name }}
-						</option>
-					@endforeach
-				</select>
-			</div>
+{{--            <div class="row mb-3">--}}
+{{--                <label for="GroupID" class="form-label">{{ __('wtr.wg') }}</label>--}}
+{{--				<select class="form-control form-select" name="GroupID" id="GroupID">--}}
+{{--					<option value="">{{ __('wtr.all_p') }}</option>--}}
+{{--					@foreach($groups as $group)--}}
+{{--						<option value="{{ $group->ID }}" {{ $group->ID == $watering->GroupID ? 'selected' : '' }}>--}}
+{{--							{{ $group->Name }}--}}
+{{--						</option>--}}
+{{--					@endforeach--}}
+{{--				</select>--}}
+{{--			</div>--}}
 
             <hr>
             <p class="row text-center justify-content-center fs-5">{{ __('wtr.sel_d') }}</p>
