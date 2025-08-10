@@ -62,7 +62,7 @@ class TypesOfPlantingController extends Controller
                 'flower_transplantings.DOT',
                 'flower_transplantings.SOP',
             )
-            ->where('soils.ID', '=', $id)
+            ->where('types_of_planting.ID', '=', $id)
             ->groupBy('flower_transplantings.ID')
             ->get();
 
