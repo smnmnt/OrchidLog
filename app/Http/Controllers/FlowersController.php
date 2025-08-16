@@ -26,7 +26,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
 use function Laravel\Prompts\table;
 
@@ -416,69 +417,65 @@ class FlowersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store_img(Request $request, $id)
-    {
-//        $flower = DB::table('flowers')
-//            ->where('ID', '=', $id)
-//            ->first();
-//        $flower_name = $flower->Name;
-//        $allFlowerImages = Flower_Images::where('FlowerID', '=', $id)
-//            ->get();
-//        $nameWithoutSpaces = str_replace(array(' ', '?', '!'), '', $flower_name);
-//        if ($files = $request->file('Images')) {
-//            foreach ($files as $file) {
-//                $flower_images = new Flower_Images();
-//
-//                $name = $file->getFilename();
-//                $path = 'storage/flowers/' . Str::slug($flower_name) . '/';
-//                $url = $file->move($path, $name . '.webp');
-//
-//                $flower_images->FlowerID = $id;
-//                $flower_images->Link = '/' . $url;
-//                if (!sizeof($allFlowerImages)) {
-//                    $flower_images->IsMain = true;
-//                }
-//                $flower_images->save();
-//            }
-//        }
-//
-//        return redirect()
-//            ->route('flowers.show', compact('id'))
-//            ->with('success', "flower.added_img");
+	public function store_img(Request $request, $id)
+	{
+		$flower = DB::table('flowers')->where('ID', '=', $id)->first();
+		$flower_name = $flower->Name;
+		$slug = Str::slug($flower_name);
 
+		// Пути для сохранения
+		$originalsPath = "storage/flowers/$slug/originals";
+		$previewsPath = "storage/flowers/$slug/previews";
 
-        $flower = DB::table('flowers')->where('ID', '=', $id)->first();
-        $flower_name = $flower->Name;
-        $slug = Str::slug($flower_name);
-        $folder = public_path("storage/flowers/$slug");
+		// Создаём папки
+		File::ensureDirectoryExists(public_path($originalsPath), 0755, true);
+		File::ensureDirectoryExists(public_path($previewsPath), 0755, true);
 
-        // Создаём папку, если не существует
-        if (!File::exists($folder)) {
-            File::makeDirectory($folder, 0755, true);
-        }
+		$allFlowerImages = Flower_Images::where('FlowerID', '=', $id)->get();
 
-        $allFlowerImages = Flower_Images::where('FlowerID', '=', $id)->get();
+		if ($files = $request->file('Images')) {
+			$manager = new ImageManager(new Driver());
 
-        if ($files = $request->file('Images')) {
-            foreach ($files as $file) {
-                $filename = uniqid() . '.webp';
-                $file->move($folder, $filename);
+			foreach ($files as $file) {
+				$basename = uniqid();
+				$extension = $file->getClientOriginalExtension();
+				$originalName = "$basename.$extension";
 
-                $flower_images = new Flower_Images();
-                $flower_images->FlowerID = $id;
-                $flower_images->Link = "/storage/flowers/$slug/$filename";
-                $flower_images->IsMain = $allFlowerImages->isEmpty();
-                $flower_images->save();
+				// 1. Сохраняем оригинал
+				$originalPath = "$originalsPath/$originalName";
+				$file->move(public_path($originalsPath), $originalName);
 
-                $allFlowerImages->push($flower_images); // чтобы один был IsMain
-            }
-        }
+				// 2. Создаем превью
+				$previewName = "$basename.webp";
+				$previewPath = "$previewsPath/$previewName";
 
-        return redirect()
-            ->route('flowers.show', ['id' => $id])
-            ->with('success', "flower.added_img");
+				$manager->read(public_path($originalPath))
+					->scaleDown(800, null)
+					->toWebp(75)
+					->save(public_path($previewPath));
 
-    }
+				// 3. Получаем EXIF данные
+				$takenAt = null;
+				$exif = @exif_read_data(public_path($originalPath));
+				if ($exif && !empty($exif['DateTimeOriginal'])) {
+					$takenAt = date('Y-m-d H:i:s', strtotime($exif['DateTimeOriginal']));
+				}
+
+				// 4. Сохраняем в БД
+				$flowerImage = new Flower_Images();
+				$flowerImage->FlowerID = $id;
+				$flowerImage->Link = "/$previewPath";
+				$flowerImage->OriginalLink = "/$originalPath";
+				$flowerImage->taken_at = $takenAt;
+				$flowerImage->IsMain = $allFlowerImages->isEmpty();
+				$flowerImage->save();
+			}
+		}
+
+		return redirect()
+			->route('flowers.show', $id)
+			->with('success', "flower.added_img");
+	}
 
     /**
      * Store a newly created resource in storage.

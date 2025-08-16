@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperFlower_Placement_Links
+ */
 class Flower_Placement_Links extends Model
 {
     public $table = 'flower_placement_links';
