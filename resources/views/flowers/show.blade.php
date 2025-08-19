@@ -107,5 +107,5 @@
         </div>
     @endforeach
 
-    <script src="{{asset('./storage/modal_image.js')}}"></script>
+    <script src="{{asset('./js/modal_image.js')}}"></script>
 @endsection
