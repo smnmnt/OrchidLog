@@ -18,7 +18,16 @@
 		</p>
 		<div class="card-footer-actions">
 			@if($flower_img_un->IsMain == 1)
-				<input type="submit" class="btn standart-btn" disabled aria-label="Update" style="background-image: url({{ asset('/storage/img/star-fill.svg') }});" value="">
+				<form action=""
+					  class=""
+					  method="post">
+					@csrf
+					@method('PATCH')
+					<fieldset disabled>
+						<input type="submit" class="btn standart-btn" disabled aria-label="Update" style="background-image: url({{ asset('/storage/img/star-fill.svg') }});" value="">
+					</fieldset>
+					<!-- /.standart-btn -->
+				</form>
 			@else
 				<form action="{{ route('flowers.update_img_main', ['id' => $flower_img_un->ID]) }}"
 					  class=""
