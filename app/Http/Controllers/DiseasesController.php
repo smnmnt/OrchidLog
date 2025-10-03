@@ -52,8 +52,9 @@ class DiseasesController extends Controller
             ->get();
 
         $flowers = DB::table('flowers')
+			->where('flowers.archived','=',0)
             ->join('flower_disease_links', 'flowers.ID', '=', 'flower_disease_links.FlowerID')
-            ->where('flower_disease_links.DiseaseID','=',$id)
+			->where('flower_disease_links.DiseaseID','=',$id)
             ->get();
         return view('diseases.show', compact('disease', 'flowers'));
     }

@@ -51,6 +51,7 @@ class ShopsController extends Controller
         $shop = Shops::where('ID', '=', $id)
             ->get();
         $flowers = DB::table('flowers')
+			->where('flowers.archived','=',0)
             ->join('flower_shop_links', 'flowers.ID', '=', 'flower_shop_links.FlowerID')
             ->where('flower_shop_links.ShopID', '=', $id)
             ->get();

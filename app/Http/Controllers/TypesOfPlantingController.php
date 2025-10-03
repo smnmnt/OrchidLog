@@ -54,6 +54,7 @@ class TypesOfPlantingController extends Controller
             ->leftjoin('flower_s_t_links', 'flower_s_t_links.TPID', '=', 'flower_transplantings.ID')
             ->leftjoin('soils', 'soils.ID', '=', 'flower_s_t_links.SoilID')
             ->leftjoin('flowers', 'flowers.ID', '=', 'flower_transplantings.FlowerID')
+			->where('flowers.archived','=',0)
             ->leftjoin('types_of_planting', 'flower_transplantings.TOPID', '=', 'types_of_planting.ID')
             ->select(
                 'flower_transplantings.*',

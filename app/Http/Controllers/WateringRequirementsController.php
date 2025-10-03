@@ -49,6 +49,7 @@ class WateringRequirementsController extends Controller
         $watering_requirement = Watering_Requirements::where('ID', '=', $id)
             ->get();
         $flowers = DB::table('flowers')
+			->where('flowers.archived','=',0)
             ->join('flower_w_r_links', 'flower_w_r_links.FlowerID', '=', 'flowers.ID')
             ->where('flower_w_r_links.WRID', '=', $id)
             ->get();

@@ -106,6 +106,7 @@ class FlowerWateringsController extends Controller
 
 		// Загружаем связанные цветы
 		$flowers = DB::table('flowers')
+			->where('flowers.archived','=',0)
 			->select('flowers.ID', 'flowers.Name')
 			->join('flower_watering_links', 'flowers.ID', '=', 'flower_watering_links.FlowerID')
 			->where('flower_watering_links.WateringID', '=', $id)
@@ -166,7 +167,9 @@ class FlowerWateringsController extends Controller
 		}
 
         //$allFlowers = DB::table('flowers')->orderBy('Name')->get();
-        $query = DB::table('flowers')->orderBy('Name');
+        $query = DB::table('flowers')
+			->where('flowers.archived','=',0)
+			->orderBy('Name');
 
         $allFlowers = $query->get();
 

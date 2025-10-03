@@ -40,6 +40,7 @@ class FlowersController extends Controller
     public function main()
     {
     	$flower = DB::table('flowers')
+			->where('flowers.archived','=',0)
     		->join('flower_images', 'flowers.ID', '=', 'flower_images.FlowerID')
     		->where('flower_images.IsMain', true)
     		->inRandomOrder()
