@@ -109,27 +109,42 @@ class FlowersController extends Controller
      */
     public function watering_index()
     {
+        $flowerCounts = DB::table('flower_watering_links')
+            ->select(
+                'WateringID',
+                DB::raw('COUNT(DISTINCT FlowerID) as FlowerCount')
+            )
+            ->groupBy('WateringID');
+
+        $fertilizerNames = DB::raw("
+            (
+                SELECT
+                    fw.ID as WateringID,
+                    GROUP_CONCAT(DISTINCT fertilizers.Name SEPARATOR '\n') as FertilizerName
+                FROM flower_waterings fw
+                LEFT JOIN JSON_TABLE(fw.FertilizerID, '$[*]'
+                    COLUMNS(fertilizer_id INT PATH '$')
+                ) AS ferts ON true
+                LEFT JOIN fertilizers ON ferts.fertilizer_id = fertilizers.ID
+                GROUP BY fw.ID
+            ) as fertilizer_names
+        ");
+
 		$waterings = DB::table('flower_waterings')
 			->leftJoin('watering_types_of', 'flower_waterings.TypeID', '=', 'watering_types_of.ID')
 			->leftJoin('watering_groups', 'flower_waterings.GroupID', '=', 'watering_groups.ID')
-			->leftJoin('flower_watering_links', 'flower_waterings.ID', '=', 'flower_watering_links.WateringID')
-			->leftJoin(DB::raw("
-        JSON_TABLE(flower_waterings.FertilizerID, '$[*]'
-            COLUMNS(fertilizer_id INT PATH '$')
-        ) AS ferts
-    "), function($join) {
-				$join->on(DB::raw('1'), '=', DB::raw('1')); // dummy join, чтобы JSON_TABLE работал
-			})
-			->leftJoin('fertilizers', 'ferts.fertilizer_id', '=', 'fertilizers.ID')
+            ->leftJoinSub($flowerCounts, 'flower_counts', function ($join) {
+                $join->on('flower_waterings.ID', '=', 'flower_counts.WateringID');
+            })
+            ->leftJoin($fertilizerNames, 'flower_waterings.ID', '=', 'fertilizer_names.WateringID')
 			->select(
 				'flower_waterings.*',
 				'watering_types_of.WateringName',
 				'watering_types_of.TypeOfImg',
-				DB::raw("GROUP_CONCAT(DISTINCT fertilizers.Name SEPARATOR '\n') as FertilizerName"),
+                'fertilizer_names.FertilizerName',
 				'watering_groups.Name as GroupName',
-				DB::raw('COUNT(DISTINCT flower_watering_links.FlowerID) as FlowerCount')
+				DB::raw('COALESCE(flower_counts.FlowerCount, 0) as FlowerCount')
 			)
-			->groupBy('flower_waterings.ID')
 			->orderByDesc('WateringDate')
 			->orderByDesc('flower_waterings.updated_at')
 			->get();
