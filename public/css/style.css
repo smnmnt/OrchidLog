@@ -39,8 +39,14 @@
 a {
     text-decoration: none;
 }
-.body {
+body {
     padding: 0;
+	background: #103453;
+}
+section {
+	background: white;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 }
 .container {
     margin: auto;
@@ -125,7 +131,7 @@ a {
 }
 
 .main {
-    margin-bottom: 120px;
+    margin-bottom: 5rem;
 }
 .nav {
     justify-content: space-evenly;

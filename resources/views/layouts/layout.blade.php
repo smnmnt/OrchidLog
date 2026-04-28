@@ -6,6 +6,14 @@
     <title>{{ __('basic.site_name') }} / {{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('./storage/bootstrap-5.0.2-dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('./css/style.css') }}">
+    <link rel="manifest" href="{{ asset('./manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ asset('./icons/pwa-192.png') }}">
+    <meta name="theme-color" content="#103453">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="{{ __('basic.site_name') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{ __('basic.site_name') }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/bootstrap.bundle.js')}}"></script>
     <script src="{{asset('./storage/bootstrap-5.0.2-dist/js/jquery-3.7.1.slim.js')}}"></script>
 </head>
@@ -62,5 +70,6 @@
     </div>
 </div>
 @include('parts.textAreaResizer')
+<script src="{{ asset('./js/pwa.js') }}" defer></script>
 </body>
 </html>
