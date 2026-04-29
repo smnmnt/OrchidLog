@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [\App\Http\Controllers\FlowersController::class, 'main'])->name('flowers.main');
+Route::get('/pwa-check', fn () => response()->file(public_path('pwa-check.html')))->name('pwa.check');
 
 Route::get('/flowers/search', [\App\Http\Controllers\FlowersController::class, 'search'])->name('flowers.search');
 Route::get('/flowers/all/search', [\App\Http\Controllers\FlowersController::class, 'search'])->name('flowers.all.search');

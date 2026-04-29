@@ -6,7 +6,7 @@
     <title>{{ __('basic.site_name') }} / {{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('./storage/bootstrap-5.0.2-dist/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('./css/style.css') }}">
-    <link rel="manifest" href="{{ asset('./manifest.json') }}">
+    <link rel="manifest" href="{{ asset('./manifest.json') }}" type="application/manifest+json">
     <link rel="apple-touch-icon" href="{{ asset('./icons/pwa-192.png') }}">
     <meta name="theme-color" content="#103453">
     <meta name="mobile-web-app-capable" content="yes">
