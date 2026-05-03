@@ -140,3 +140,27 @@ Route::get('/wg/show/{id}', [\App\Http\Controllers\WateringGroupsController::cla
 Route::post('/wg/store', [\App\Http\Controllers\WateringGroupsController::class, 'store'])->name('wg.store');
 Route::patch('/wg/show/{id}', [\App\Http\Controllers\WateringGroupsController::class, 'update'])->name('wg.update');
 Route::delete('/wg/{id}', [\App\Http\Controllers\WateringGroupsController::class, 'destroy'])->name('wg.destroy');
+
+//aqua
+
+Route::get('/aqua/', [\App\Http\Controllers\AquaController::class, 'index'])->name('aqua.tests');
+Route::get('/aqua/test/create', [\App\Http\Controllers\AquaController::class, 'create'])->name('aqua.test.create');
+Route::post('/aqua/test/store', [\App\Http\Controllers\AquaController::class, 'store'])->name('aqua.test.store');
+Route::get('/aqua/test/show/{id}', [\App\Http\Controllers\AquaController::class, 'show'])->name('aqua.test.show');
+Route::get('/aqua/test/edit/{id}', [\App\Http\Controllers\AquaController::class, 'edit'])->name('aqua.test.edit');
+Route::patch('/aqua/test/show/{id}', [\App\Http\Controllers\AquaController::class, 'update'])->name('aqua.test.update');
+Route::delete('/aqua/test/{id}', [\App\Http\Controllers\AquaController::class, 'destroy'])->name('aqua.test.destroy');
+
+Route::get('/aqua/aquariums', [\App\Http\Controllers\AquariumsController::class, 'index'])->name('aqua.aquariums');
+Route::get('/aqua/aquariums/create', [\App\Http\Controllers\AquariumsController::class, 'create'])->name('aqua.aquariums.create');
+Route::post('/aqua/aquariums/store', [\App\Http\Controllers\AquariumsController::class, 'store'])->name('aqua.aquariums.store');
+Route::get('/aqua/aquariums/edit/{id}', [\App\Http\Controllers\AquariumsController::class, 'edit'])->name('aqua.aquariums.edit');
+Route::patch('/aqua/aquariums/{id}', [\App\Http\Controllers\AquariumsController::class, 'update'])->name('aqua.aquariums.update');
+Route::delete('/aqua/aquariums/{id}', [\App\Http\Controllers\AquariumsController::class, 'destroy'])->name('aqua.aquariums.destroy');
+
+Route::get('/aqua/types', [\App\Http\Controllers\AquaTestTypesController::class, 'index'])->name('aqua.types');
+Route::get('/aqua/types/create', [\App\Http\Controllers\AquaTestTypesController::class, 'create'])->name('aqua.types.create');
+Route::post('/aqua/types/store', [\App\Http\Controllers\AquaTestTypesController::class, 'store'])->name('aqua.types.store');
+Route::get('/aqua/types/edit/{id}', [\App\Http\Controllers\AquaTestTypesController::class, 'edit'])->name('aqua.types.edit');
+Route::patch('/aqua/types/{id}', [\App\Http\Controllers\AquaTestTypesController::class, 'update'])->name('aqua.types.update');
+Route::delete('/aqua/types/{id}', [\App\Http\Controllers\AquaTestTypesController::class, 'destroy'])->name('aqua.types.destroy');

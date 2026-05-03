@@ -10,6 +10,7 @@ return [
     */
 
     'site_name'     => 'ОрхоЛог',
+	'aqua_name'     => 'АкваЛог',
     'm_tp'          => 'Главная', //main title page
     'add'           => 'Добавить', //main title page
     'adding'        => 'Добавление', //main title page

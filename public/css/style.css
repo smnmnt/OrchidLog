@@ -69,8 +69,13 @@ section {
     flex-wrap: wrap;
     justify-content: space-around;
 }
-/* header */
 
+.list-header {
+	margin-top: 1.5rem;
+	text-align: center;
+}
+
+/* header */
 .header {
     background: var(--base_color);
     display: flex;

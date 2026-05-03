@@ -1,6 +1,7 @@
 @extends('layouts.layout', ['title' => __('basic.lookout')])
 {{-- {{ __('.ds') }} --}}
 @section('content')
+	<h3 class="list-header">Ботаника</h3>
     <ul class="list-group">
         @isset($flowers)
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -68,6 +69,14 @@
 					<span class="badge bg-primary rounded-pill">{{$archivedCount}}</span>
 				</li>
 			@endisset
-
     </ul>
+	@isset($aqua)
+		<h3 class="list-header">Аквариумистика</h3>
+		<ul class="list-group">
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				<a href="{{ route('aqua.tests') }}" class="adding-list-link">Тесты</a>
+				<span class="badge bg-primary rounded-pill">{{ $aqua }}</span>
+			</li>
+		</ul>
+	@endisset
 @endsection

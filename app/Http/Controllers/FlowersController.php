@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AquaTests;
 use App\Models\Fertilizers;
 use App\Models\Flower_Blooms;
 use App\Models\Flower_DiseaseLink;
@@ -239,6 +240,7 @@ class FlowersController extends Controller
             ->get();
         $wg = DB::table('watering_groups')
             ->get();
+		$aqua = AquaTests::query()->count();
 		$archivedCount = DB::table('flowers')->where('archived', true)->count();
         return view('lists.index',
             compact('fertilizers',
@@ -251,7 +253,8 @@ class FlowersController extends Controller
                 'tow',
                 'wg',
                 'flowers',
-				'archivedCount'
+				'archivedCount',
+				'aqua'
             ));
     }
 
